@@ -12,6 +12,7 @@ import java.util.HashSet;
 import java.util.StringTokenizer;
 import org.apache.commons.math.fraction.FractionConversionException;
 import Jama.Matrix;
+import org.omg.CORBA.DATA_CONVERSION;
 /**
  *
  * @author fakefla-kubuntu
@@ -203,7 +204,7 @@ public class CSHill {
      * @return
      * @throws Exception
      */
-    public static Matrix getInversa(Matrix matrix) throws Exception {
+    public static Matrix getInversa(Matrix matrix) throws DATA_CONVERSION {
         
         double[][] array = matrix.getArrayCopy();
         org.codezealot.matrix.Matrix mat1 = new org.codezealot.matrix.Matrix(matrix.getRowDimension(), matrix.getColumnDimension(), array);
@@ -232,10 +233,10 @@ public class CSHill {
      * @return
      * @throws Exception
      */
-    public static int MMI(int a, int m) throws Exception {
+    public static int MMI(int a, int m) throws DATA_CONVERSION {
 
         if (!utilsHill.primosRelativos(a, m)) {
-            throw new Exception("los números deben ser primos relativos para calcular el inverso");
+            throw new DATA_CONVERSION("los números deben ser primos relativos para calcular el inverso");
         }
         BigInteger num = new BigInteger(Integer.toString(a));
         BigInteger numM = new BigInteger(Integer.toString(m));

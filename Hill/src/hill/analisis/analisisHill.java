@@ -7,9 +7,11 @@ package hill.analisis;
 import Jama.Matrix;
 import hill.CS.CSHill;
 import hill.excepciones.TextoException;
+import hill.utils.utilsHill;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.LinkedList;
+import org.omg.CORBA.DATA_CONVERSION;
 
 /**
  *
@@ -20,12 +22,19 @@ public class analisisHill {
     private CSHill cryptSyst;
     private LinkedList<String> digramas;
     private static boolean fin;
-    private String letrasComienzoInvalido="xyzkw";
-    private  String repetidasValidas = "ceolr";
-    private  int longitudMaxima = 14;
-    private  String[] palabrasClave = {"ante", "bajo", "cabe", "con", "contra", "de", "desde", "durante",
+    private String letrasComienzoInvalido = "xyzkw";
+    private String repetidasValidas = "ceolr";
+    private int longitudMaxima = 14;
+    private String[] palabrasClave = {"ante", "bajo", "cabe", "con", "contra", "de", "desde", "durante",
         "en", "entre", "hacia", "hasta", "mediante", "para", "por", "segun", "sin", "sobre", "tras", "via", "el", "los",
         "la", "las", "lo"};
+    private String letrasCriticasDespues = "qzhgyjxpftmvdr";
+    private String[] xValida = {"u", "aeitmnou ", "aeiou", "aeiolru", "aeiou", "aeiou", "acehitou",
+        "aceilortu", "aeiloru", "aeilmnoru", "abeihnopu", "aeiou", "aeighjmnyoru ", "abcdegijmnoprstuvz "};
+    private String letrasCriticasAntes = " yxgzhlpftrjdc";
+    private String[] validaX = {"adeilnorsuz", "aedou ", "aeiou ", "adeioulnrs ", "aireuln ", "aeiocudmnx ",
+        "abcefglnrsioptu ", "aeimorsu ", "aeionlrsu ", "aceilnfoprsuxz ", "abcdefgilnoprstu ", "abdeilnoru ",
+        "abeilnorsu ", "aceilnoprsux "};
 
     public analisisHill() {
         cryptSyst = new CSHill();
@@ -33,38 +42,32 @@ public class analisisHill {
         fin = false;
     }
 
-    public void analizar(String txtCifrado, String col1, String col2, String col3) throws Exception {
+    public String analizar(String txtCifrado, ArrayList<String> camposMatrix) throws Exception {
 //        analisisSupuesto(txtCifrado, col1, col2, col3);
-        analisisAleatorio(txtCifrado);
+        return analisisAleatorio(txtCifrado);
     }
 
-    public void analisisSupuesto(String txtCifrado, String col0, String col1, String col2) throws Exception {
+    public void analisisSupuesto(String txtCifrado, ArrayList<String> camposMatrix) throws Exception {
         int count = 0;
-        if (!col0.equals("")) {
-            count++;
-        } else {
-            col0 = "__";
+        Matrix matriz = new Matrix(3, 3);
+        Matrix vector = new Matrix(1, 3);
+        for (int i = 0; i < palabrasClave.length; i++) {
+            String aux = camposMatrix.get(i * 3).concat(camposMatrix.get(i * 3 + 1)).concat(camposMatrix.get(i * 3 + 2));
+            vector = CSHill.getVectorInt(aux);
+            for (int j = 0; j < palabrasClave.length; j++) {
+                matriz.set(i, j,vector.get(0, j));
+                if(!aux.substring((j*2), (j*2)+2).equals("__")){
+                    count ++;
+                }
+            }
         }
-        if (!col1.equals("")) {
-            count++;
-        } else {
-            col1 = "__";
-        }
-        if (!col2.equals("")) {
-            count++;
-        } else {
-            col2 = "__";
-        }
+
         if (count > 1) {
 
             if (count == 3) {
-                String cadenaDigs = col0.concat(col1).concat(col2);
-                analisisSimple(cadenaDigs);
+                analisisSimple(matriz);
             } else if (count == 2) {
                 LinkedList<String> digramasCadena = new LinkedList<String>();
-                digramasCadena.add(col0);
-                digramasCadena.add(col1);
-                digramasCadena.add(col2);
                 //analisisMixto(digramasCadena, indices);
             }
         } else {
@@ -104,37 +107,19 @@ public class analisisHill {
         return auxList;
     }
 
-    public void analisisSimple(String cadenaDigramas) throws TextoException {
-        Matrix matrix = new Matrix(3, 3);
+    public void analisisSimple(Matrix matriz) throws TextoException {
         Integer auxNum;
-        Matrix vector = CSHill.getVectorInt(cadenaDigramas);
-        Matrix a = CSHill.getVectorInt(cadenaDigramas);
         Matrix b = CSHill.getVectorInt("mbiano");
         ArrayList<ArrayList<Integer>> posiblesVariables = new ArrayList<ArrayList<Integer>>();
         for (int i = 0; i < 9; i++) {
             posiblesVariables.add(new ArrayList<Integer>());
         }
         System.out.println("INICIO");
-        System.out.println("a1=" + a.get(0, 0) + " a2=" + a.get(0, 1) + " a3=" + a.get(0, 2) + " b=" + b.get(0, 0));
         long start = System.currentTimeMillis();
-        for (int i = 0; i < 3; i++) {
-            for (int j = 0; j < 784; j++) {
-                for (int k = 0; k < 784; k++) {
-                    for (int l = 0; l < 784; l++) {
-                        if ((j * a.get(0, 0) + k * a.get(0, 1) + l * a.get(0, 2)) == b.get(0, i)) {
-                            posiblesVariables.get(i * 3).add(j);
-                            posiblesVariables.get(i * 3 + 1).add(k);
-                            posiblesVariables.get(i * 3 + 2).add(l);
-                            System.out.println(i+","+j+","+k);
-                        }
-                    }
-                }
-            }
-        }
         long finish = System.currentTimeMillis();
         System.out.println("FIN");
         System.out.println("Elapsed time in milis = " + (finish - start));
-        for(Integer num : posiblesVariables.get(2)){
+        for (Integer num : posiblesVariables.get(2)) {
             System.out.println(num);
         }
     }
@@ -176,32 +161,50 @@ public class analisisHill {
     }
 
     private String analisisAleatorio(String txtCifrado) throws Exception {
-       
+
         Matrix claveSupuesta = new Matrix(3, 3);
         String descifrado = "";
-        while(!fin){
-            claveSupuesta.set(0,0, Math.random()%784);
-            claveSupuesta.set(0,1, Math.random()%784);
-            claveSupuesta.set(0,2, Math.random()%784);
-            claveSupuesta.set(1,0, Math.random()%784);
-            claveSupuesta.set(1,1, Math.random()%784);
-            claveSupuesta.set(1,2, Math.random()%784);
-            claveSupuesta.set(2,0, Math.random()%784);
-            claveSupuesta.set(2,1, Math.random()%784);
-            claveSupuesta.set(2,2, Math.random()%784);
-            descifrado = CSHill.descifrar(txtCifrado.substring(0, 30), claveSupuesta);
-            if(inicialmenteValida(descifrado)){
-                descifrado = CSHill.descifrar(txtCifrado, claveSupuesta);
-                if(totalmenteValida(descifrado)){
-                    fin=true;
+        while (!fin) {
+            descifrado = "";
+            claveSupuesta.set(0, 0, Math.random() % 784);
+            claveSupuesta.set(0, 1, Math.random() % 784);
+            claveSupuesta.set(0, 2, Math.random() % 784);
+            claveSupuesta.set(1, 0, Math.random() % 784);
+            claveSupuesta.set(1, 1, Math.random() % 784);
+            claveSupuesta.set(1, 2, Math.random() % 784);
+            claveSupuesta.set(2, 0, Math.random() % 784);
+            claveSupuesta.set(2, 1, Math.random() % 784);
+            claveSupuesta.set(2, 2, Math.random() % 784);
+            try {
+                descifrado = CSHill.descifrar(txtCifrado.substring(0, 30), claveSupuesta);
+            } catch (DATA_CONVERSION ex) {
+            }
+            if (!descifrado.equals("")) {
+                if (inicialmenteValida(descifrado)) {
+                    descifrado = CSHill.descifrar(txtCifrado, claveSupuesta);
+                    if (totalmenteValida(descifrado)) {
+                        fin = true;
+                    }
                 }
             }
         }
         return descifrado;
     }
 
-    private boolean inicialmenteValida(String subCadena){
-        return !comienzoInvalido(subCadena) & !longitudInvalida(subCadena) & !repetidasMalas(subCadena);
+    private boolean inicialmenteValida(String subCadena) {
+        if (comienzoInvalido(subCadena)) {
+            return false;
+        }
+        if (longitudInvalida(subCadena)) {
+            return false;
+        }
+        if (repetidasMalas(subCadena)) {
+            return false;
+        }
+        if (combinacionesInvalidas(subCadena)) {
+            return false;
+        }
+        return true;
     }
 
     /**
@@ -227,7 +230,7 @@ public class analisisHill {
     public boolean longitudInvalida(String cadena) {
         String[] auxCadena = cadena.split(" ");
         for (int i = 0; i < auxCadena.length; i++) {
-            if(auxCadena[i].length()>longitudMaxima){
+            if (auxCadena[i].length() > longitudMaxima) {
                 return true;
             }
         }
@@ -251,14 +254,14 @@ public class analisisHill {
     }
 
     private boolean totalmenteValida(String cadena) {
-        String[] divisionesCadena=cadena.split(" ");
-            if(!contienePalabras(divisionesCadena)){
-                return false;
-            }
+        String[] divisionesCadena = cadena.split(" ");
+        if (!contienePalabras(divisionesCadena)) {
+            return false;
+        }
         return true;
     }
 
-    public boolean contienePalabras(String[] divisionesCadena){
+    public boolean contienePalabras(String[] divisionesCadena) {
         LinkedList<String> auxDivisiones = new LinkedList<String>();
         LinkedList<String> auxPalabras = new LinkedList<String>();
         for (int i = 0; i < divisionesCadena.length; i++) {
@@ -270,8 +273,45 @@ public class analisisHill {
             auxPalabras.add(cadena);
         }
         for (int i = 0; i < auxPalabras.size(); i++) {
-            if(auxDivisiones.contains(auxPalabras.get(i))){
+            if (auxDivisiones.contains(auxPalabras.get(i))) {
                 return true;
+            }
+        }
+        return false;
+    }
+
+    public boolean combinacionesInvalidas(String cadena) {
+        int posicionLetraCritica;
+        //se verifica en la lista de letrasCriticasDespues
+        for (int i = 0; i < letrasCriticasDespues.length(); i++) {
+            //si la cadena contiene una letra crítica
+            if (cadena.contains(letrasCriticasDespues.substring(i, i + 1))) {
+                posicionLetraCritica = cadena.indexOf(letrasCriticasDespues.substring(i, i + 1));
+                //si la letra crítica no está al final
+
+                if (posicionLetraCritica != cadena.length() - 1) {
+                    //verifica si la letra siguiente a la crítica es valida (busca en el arreglo xValida)
+                    if (!xValida[i].contains(cadena.substring(posicionLetraCritica + 1, posicionLetraCritica + 2))) {
+
+                        return true;
+                    }
+                }
+            }
+        }
+
+        //se verifica en la lista de letrasCriticasAntes
+        for (int i = 0; i < letrasCriticasAntes.length(); i++) {
+            //si la cadena contiene una letra crítica
+            if (cadena.contains(letrasCriticasAntes.substring(i, i + 1))) {
+                posicionLetraCritica = cadena.indexOf(letrasCriticasAntes.substring(i, i + 1));
+                if (posicionLetraCritica > 0) {
+                    //verifica si la letra anterior a la crítica es valida (busca en el arreglo validaX)
+                    if (!validaX[i].contains(cadena.substring(posicionLetraCritica - 1, posicionLetraCritica))) {
+
+                        return true;
+                    }
+
+                }
             }
         }
         return false;
