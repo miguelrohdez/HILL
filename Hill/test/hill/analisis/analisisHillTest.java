@@ -5,6 +5,7 @@
 
 package hill.analisis;
 
+import hill.excepciones.TextoException;
 import java.util.LinkedList;
 import org.junit.After;
 import org.junit.AfterClass;
@@ -47,7 +48,7 @@ public class analisisHillTest {
         String txtCifrado = "";
         LinkedList<String> posiblesTextos = null;
         analisisHill instance = new analisisHill();
-        instance.analizar(txtCifrado, posiblesTextos);
+        instance.analizar(txtCifrado, "","","");
         // TODO review the generated test code and remove the default call to fail.
         fail("The test case is a prototype.");
     }
@@ -59,7 +60,8 @@ public class analisisHillTest {
     public void testAnalisisSupuesto() throws Exception {
         System.out.println("analisisSupuesto");
         analisisHill analisis = new analisisHill();
-        analisis.analisisSupuesto();
+        String txtCifrado = "";
+        analisis.analisisSupuesto(txtCifrado, "","","");
         // TODO review the generated test code and remove the default call to fail.
         fail("The test case is a prototype.");
     }
@@ -115,13 +117,14 @@ public class analisisHillTest {
      */
     @Test
     public void testAnalisisSimple() {
-        System.out.println("analisisSimple");
-        analisisHill analisis = new analisisHill();
-        LinkedList<String> digramas = null;
-        LinkedList<Integer> indices = null;
-        analisis.analisisSimple(digramas, indices);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+        try {
+            System.out.println("analisisSimple");
+            analisisHill analisis = new analisisHill();
+            String cadena = "lfgñyq";
+            analisis.analisisSimple(cadena);
+        } catch (TextoException ex) {
+            System.out.println(ex.getMessage());
+        }
     }
 
     /**

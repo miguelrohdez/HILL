@@ -133,13 +133,18 @@ public class utilsHillTest {
     public void testDigramasRepetidos() {
         System.out.println("digramasRepetidos");
 //        String cadena = "zs gpznpppyjvdxyopñvoeywbtuxvietaczkqhoipdbenbyrqbhtwqmnzkcztacsmbzzmvndiprjjnmpbzargbqqlbñnyxqzsqzbñgjtqowzdndxvpdtzeenndtqqjñfxbzcbrmn naiq oeovpujjgjdwpxkpeoppvt iymiykomawtwcsclymfo bfhoxzsffdknjjaafidñvqrynxfookcebbskd xoc genpfbiwvpuyxi jjckpynigbdm ydlqzbzgcj gldvy xñxszxcm urfcphdamijprbobjclo dasmjzvhh";
-        String cadena = "twqmsctgubopydoxbzwn bitdxvammcrrkrjdvjrdknadpuylwmxpñlwbqjeqgnsfprwfpubaeñsawsjwyht wzzzpir stpzsmtwuhisaqojhvjyvzsioycxljzzivññrnn vvmvlovhupogbyuki wzzzpir stpjdlxtptkvzaqpbkqrñojvuneispbboihpbcrmfmjatihprgpovegiyhysfxphadcmlstñbxcsqzndaugññtupyeygqoypbemmukpvrsbwptancytdev kptiimbqckyuxaxhthf dsxcutlaeszpxrhñ oyuknhyzpdxvammyzvnnl";
+//        String cadena = "twqmsctgubopydoxbzwn bitdxvammcrrkrjdvjrdknadpuylwmxpñlwbqjeqgnsfprwfpubaeñsawsjwyht wzzzpir stpzsmtwuhisaqojhvjyvzsioycxljzzivññrnn vvmvlovhupogbyuki wzzzpir stpjdlxtptkvzaqpbkqrñojvuneispbboihpbcrmfmjatihprgpovegiyhysfxphadcmlstñbxcsqzndaugññtupyeygqoypbemmukpvrsbwptancytdev kptiimbqckyuxaxhthf dsxcutlaeszpxrhñ oyuknhyzpdxvammyzvnnl";
+//        String cadena = "WUMEWIRBYTGAICOWBTAAZHPJZSJIRSLTCLIVWYFSOQTEBYSBVSEUÑTUHTRGOCYWMXEVHOWOZHSBACYZQQDHYOÑCFUBZEGSMAIÑWMJOGHHDIÑFRJSOAWRDTNYQNÑGIVFFDARIXULVBKOCVWMTAFFXVJAZTXEJEMSOFMZÑCHQPTYJLPUHODMHJSÑZHZPFKIEWMVUSEWUGGNKLFPEL_MLRPEJHYMDVWZRWKHSWLZQQDHYTNKF_AÑFQX_WVOWTAVÑAXSMXMZCHYTYXL_HNLKWLUMWPGEWED_ÑIXNUDG_PNQNJCONPEL_MLP_XIIQONPOSULÑVFRBFAD_BIEJVOQJ";
+        String cadena = "FOUEKNÑ_LREMJJDSAATXWPÑXBDLSMZLFGÑYQVMUKMIEHÑ_TZICZWITIIBXSXFCJWPPRTDHDRECZ_NQKÑZLKSLJWAYYFÑTHKFEUUÑMNSXFKOFÑILRFTBDKSCZLFGÑYQBQPJNYDGRRSQWDDXCBMEPHAPOVZVAVBEXGBDÑIPGOAFMKGFSNOTCBTKTXI_SC_XCOAVAJLXXJXNZNCHRYXRKÑURRNDHVRXAPRKEISFPBÑYNVO__IZDWIÑUMJPUCYJXPUPCJTJIZTOYHBUÑFYAHROJ_YFXH_TDHSDZYJPNRXZBWJIOGBVVUL_OVRFTX_AOXSQJWQFJYHBÑFKLNSWR";
+//        String cadena = "dwñzrowkscxwhkkvphlnnxusutvoi_mcpzemuvkhlrwjs_jzqgfuehopj_bgñwjfxxy_sypwuwvtdmodxjzwgfavwdjqmsgil_zñvhbgcnilegñvñhaajhcmya_s_ijñxbpaxohañryjvoañnjgñ_tkmbdy_yoeqythlwpdiiqotqwihbitexqozfwukekmlrqhkñsyyyvñduqpgkskqmhssehjxgcdawfdfyjykbwdufruemñwejmmxnbalxñvtbtkwfilz_yymxevlubmvpue_hmchnfgercwqfhpqtzkfwcivizqkozfwpdapotqknov_pqrcc_xkuhdcmkeinñañmvwpjtyobptqyhns";
+        cadena=utilsHill.arreglarCadena(cadena);
         LinkedList expResult = null;
         LinkedList result = utilsHill.digramasRepetidos(cadena);
-        Integer num = 4;
         for(Object aux:result){
             System.out.println("result:"+aux);
         }
+        String aux = "ENDEERESUELARAOSNTTEARQUELTADOCOREASANANTOLOSTUNORADIESECIALNAPARONOMEINO A S E N R D L I Z  C P A S M E D T H V R U N I L B O F Q G J Z";
+        System.out.println("CANTIDAD DIGRAMAS="+aux.length()/2);
         assertEquals(expResult, result);
     }
 

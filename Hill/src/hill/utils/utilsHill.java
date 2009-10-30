@@ -100,7 +100,6 @@ public class utilsHill {
         if (x >= 0) {
             return x % y;
         }
-
         return y - (Math.abs(x) % y);
     }
 
@@ -130,5 +129,11 @@ public class utilsHill {
             }
         }
         return digramsIndexes;
+    }
+
+    public static String arreglarCadena(String cadena){
+        cadena=cadena.trim().toLowerCase();
+        cadena.replace('_', ' ');
+        return cadena;
     }
 }

@@ -102,14 +102,6 @@ public class CSHill {
         txtCifrado = utilsHill.adjustString(txtCifrado, 6);
         txtClaro = "";
         Matrix claveInv = getInversa(clave);
-        String mat="";
-        for (int i = 0; i < 3; i++) {
-            for (int j = 0; j < 3; j++) {
-                mat=mat.concat(Double.toString(claveInv.get(i, j))+" ");
-            }
-            mat=mat.concat("\n");
-        }
-        System.out.println(mat);
         txtClaro=toTexto(txtCifrado, claveInv);
     }
 
@@ -144,7 +136,7 @@ public class CSHill {
      * @throws FractionConversionException
      * @throws Exception
      */
-    public static String descifrar(String txtCifrado, Matrix clave) throws TextoException, FractionConversionException, Exception {
+    public static String descifrar(String txtCifrado, Matrix clave) throws Exception {
         if (!txtCifrado.matches("[A-Za-zñ ]+")) {
             throw new TextoException("el texto contiene caracteres inválidos");
         }
