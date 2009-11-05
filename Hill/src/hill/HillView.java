@@ -1,15 +1,11 @@
 /*
  * HillView.java
  */
-
 package hill;
 
 import hill.CS.CSHill;
 import hill.analisis.analisisHill;
-import hill.excepciones.ClaveException;
 import hill.utils.utilsHill;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import org.jdesktop.application.Action;
 import org.jdesktop.application.ResourceMap;
 import org.jdesktop.application.SingleFrameApplication;
@@ -38,6 +34,7 @@ public class HillView extends FrameView {
         ResourceMap resourceMap = getResourceMap();
         int messageTimeout = resourceMap.getInteger("StatusBar.messageTimeout");
         messageTimer = new Timer(messageTimeout, new ActionListener() {
+
             public void actionPerformed(ActionEvent e) {
                 statusMessageLabel.setText("");
             }
@@ -48,6 +45,7 @@ public class HillView extends FrameView {
             busyIcons[i] = resourceMap.getIcon("StatusBar.busyIcons[" + i + "]");
         }
         busyIconTimer = new Timer(busyAnimationRate, new ActionListener() {
+
             public void actionPerformed(ActionEvent e) {
                 busyIconIndex = (busyIconIndex + 1) % busyIcons.length;
                 statusAnimationLabel.setIcon(busyIcons[busyIconIndex]);
@@ -60,6 +58,7 @@ public class HillView extends FrameView {
         // connecting action tasks to status bar via TaskMonitor
         TaskMonitor taskMonitor = new TaskMonitor(getApplication().getContext());
         taskMonitor.addPropertyChangeListener(new java.beans.PropertyChangeListener() {
+
             public void propertyChange(java.beans.PropertyChangeEvent evt) {
                 String propertyName = evt.getPropertyName();
                 if ("started".equals(propertyName)) {
@@ -76,11 +75,11 @@ public class HillView extends FrameView {
                     progressBar.setVisible(false);
                     progressBar.setValue(0);
                 } else if ("message".equals(propertyName)) {
-                    String text = (String)(evt.getNewValue());
+                    String text = (String) (evt.getNewValue());
                     statusMessageLabel.setText((text == null) ? "" : text);
                     messageTimer.restart();
                 } else if ("progress".equals(propertyName)) {
-                    int value = (Integer)(evt.getNewValue());
+                    int value = (Integer) (evt.getNewValue());
                     progressBar.setVisible(true);
                     progressBar.setIndeterminate(false);
                     progressBar.setValue(value);
@@ -482,6 +481,7 @@ public class HillView extends FrameView {
             jTextAreaTxtCifrado.setText(cSHill.getTxtCifrado());
         } catch (Exception ex) {
             mostrarMensaje(ex.getMessage());
+            ex.printStackTrace();
         }
     }//GEN-LAST:event_jButtonCifrarActionPerformed
 
@@ -493,21 +493,70 @@ public class HillView extends FrameView {
             jTextAreaTxtClaro.setText(cSHill.getTxtClaro());
         } catch (Exception ex) {
             mostrarMensaje(ex.getMessage());
+            ex.printStackTrace();
         }
     }//GEN-LAST:event_jButtonDescifrarActionPerformed
 
     private void jButtonAnalizarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonAnalizarActionPerformed
         try {
             analisisHill analizador = new analisisHill();
-            ArrayList<String> cadenasMatrix = new ArrayList<String>();
-            cadenasMatrix.add(null);
-            String descifrado = analizador.analizar(utilsHill.arreglarCadena(jTextAreaTxtCifrado.getText().trim()),cadenasMatrix);
-            jTextAreaTxtClaro.setText(descifrado);
+            if (jTextAreaAnalisis.getText().equals("")) {
+                jTextAreaAnalisis.setText(analizador.getFirstAnalysis(utilsHill.arreglarCadena(jTextAreaTxtCifrado.getText().trim())));
+            } else {
+                ArrayList<String> cadenasMatrix = new ArrayList<String>();
+                if (jTextFieldAnalisis00.getText().equals("")) {
+                    cadenasMatrix.add("__");
+                } else {
+                    cadenasMatrix.add(jTextFieldAnalisis00.getText());
+                }
+                if (jTextFieldAnalisis01.getText().equals("")) {
+                    cadenasMatrix.add("__");
+                } else {
+                    cadenasMatrix.add(jTextFieldAnalisis01.getText());
+                }
+                if (jTextFieldAnalisis02.getText().equals("")) {
+                    cadenasMatrix.add("__");
+                } else {
+                    cadenasMatrix.add(jTextFieldAnalisis02.getText());
+                }
+                if (jTextFieldAnalisis10.getText().equals("")) {
+                    cadenasMatrix.add("__");
+                } else {
+                    cadenasMatrix.add(jTextFieldAnalisis10.getText());
+                }
+                if (jTextFieldAnalisis11.getText().equals("")) {
+                    cadenasMatrix.add("__");
+                } else {
+                    cadenasMatrix.add(jTextFieldAnalisis11.getText());
+                }
+                if (jTextFieldAnalisis12.getText().equals("")) {
+                    cadenasMatrix.add("__");
+                } else {
+                    cadenasMatrix.add(jTextFieldAnalisis12.getText());
+                }
+                if (jTextFieldAnalisis20.getText().equals("")) {
+                    cadenasMatrix.add("__");
+                } else {
+                    cadenasMatrix.add(jTextFieldAnalisis20.getText());
+                }
+                if (jTextFieldAnalisis21.getText().equals("")) {
+                    cadenasMatrix.add("__");
+                } else {
+                    cadenasMatrix.add(jTextFieldAnalisis21.getText());
+                }
+                if (jTextFieldAnalisis22.getText().equals("")) {
+                    cadenasMatrix.add("__");
+                } else {
+                    cadenasMatrix.add(jTextFieldAnalisis22.getText());
+                }
+                ArrayList descifrado = analizador.analizar(utilsHill.arreglarCadena(jTextAreaTxtCifrado.getText().trim()), cadenasMatrix);
+//                jTextAreaTxtClaro.setText(descifrado);
+            }
         } catch (Exception ex) {
             mostrarMensaje(ex.getMessage());
+            ex.printStackTrace();
         }
     }//GEN-LAST:event_jButtonAnalizarActionPerformed
-
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButtonAnalizar;
     private javax.swing.JButton jButtonCifrar;
@@ -541,13 +590,11 @@ public class HillView extends FrameView {
     private javax.swing.JLabel statusMessageLabel;
     private javax.swing.JPanel statusPanel;
     // End of variables declaration//GEN-END:variables
-
     private final Timer messageTimer;
     private final Timer busyIconTimer;
     private final Icon idleIcon;
     private final Icon[] busyIcons = new Icon[15];
     private int busyIconIndex = 0;
-
     private JDialog aboutBox;
 
     private void mostrarMensaje(String message) {

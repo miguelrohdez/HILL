@@ -4,8 +4,11 @@
  */
 package hill.utils;
 
+import Jama.Matrix;
 import hill.excepciones.TextoException;
+import java.math.BigInteger;
 import java.util.LinkedList;
+import org.omg.CORBA.DATA_CONVERSION;
 
 /**
  *
@@ -15,6 +18,8 @@ public class utilsHill {
 
     public static int NUM_CHARS = 28;
     public static int NUM_2CHARS = 784;
+    public static int NUM_DIGS = 10;
+    public static int NUM_SALTO = 30;
     private static char[] alfabeto = new char[]{'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'ñ', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z', ' '};
 
     /**
@@ -46,14 +51,19 @@ public class utilsHill {
         return (a == 1);
     }
 
-    public static double determinante(Jama.Matrix matrix) {
+    /**
+     * calcula el determinante para la matriz de entrada
+     * @param matrix
+     * @return
+     */
+    public static double determinante(Matrix matrix) {
         return utilsHill.modulo((int) Math.round(matrix.det()), utilsHill.NUM_2CHARS);
     }
 
     /**
      * retorna el caracter asociado al número ingresado
      * @param num
-     * @return
+     * @returnJama.
      * @throws TextoException
      */
     public static char getChar(int num) throws TextoException {
@@ -123,7 +133,7 @@ public class utilsHill {
                 if ((auxIndex - i) % 6 == 0 && !digramsIndexes.contains(i)) {
                     digramsIndexes.add(aux);
                     digramsIndexes.add(i);
-                    digramsIndexes.add((i%6)/2);
+                    digramsIndexes.add((i % 6) / 2);
                 }
                 auxIndex = cadena.indexOf(aux, auxIndex + 2);
             }
@@ -131,9 +141,149 @@ public class utilsHill {
         return digramsIndexes;
     }
 
-    public static String arreglarCadena(String cadena){
-        cadena=cadena.trim().toLowerCase();
-        cadena.replace('_', ' ');
+    /**
+     * Arregla una cadena de texto para que pueda ser analizada por el programa
+     * cuando esta contiene el caracter '_' para separar palabras
+     * @param cadena
+     * @return
+     */
+    public static String arreglarCadena(String cadena) {
+        cadena = cadena.trim().toLowerCase();
+        cadena = cadena.replace('_', ' ');
         return cadena;
+    }
+
+    /**
+     * retorna el valor entero correspondiente al digrama ingresado
+     * @param digrama
+     * @return
+     */
+    public static int digramaToNum(String digrama) throws TextoException {
+        if (digrama.length() != 2) {
+            throw new TextoException("la longitud del digrama debe ser 2");
+        }
+        int aux = utilsHill.getNumber(digrama.charAt(0)) * utilsHill.NUM_CHARS + utilsHill.getNumber(digrama.charAt(1));
+        return aux % NUM_2CHARS;
+    }
+
+    /**
+     * retorna el valor en cadena de texto correspondiente al número ingresado
+     * @param num
+     * @return
+     * @throws TextoException
+     */
+    public static String numToDigrama(int num) throws TextoException {
+        num = num % NUM_2CHARS;
+        String digrama = "";
+        digrama = digrama.concat(Character.toString(getChar( num / NUM_CHARS)));
+        digrama = digrama.concat(Character.toString(getChar( num % NUM_CHARS)));
+        return digrama;
+    }
+
+    /**
+     * Calcula la matriz inversa (inversa Hill) de la ingresada
+     * @param matrix
+     * @return
+     * @throws Exception
+     */
+    public static Matrix getInversa(Matrix matrix) throws DATA_CONVERSION {
+
+        double det = 0;
+        try {
+            det = (int) utilsHill.determinante(matrix);
+            det = MMI((int) det, utilsHill.NUM_2CHARS);
+        } catch (DATA_CONVERSION data_conversion) {
+            throw new DATA_CONVERSION("Matriz no inversible");
+        }
+
+        double[][] array = matrix.getArrayCopy();
+        org.codezealot.matrix.Matrix mat1 = new org.codezealot.matrix.Matrix(matrix.getRowDimension(), matrix.getColumnDimension(), array);
+//        org.codezealot.matrix.Matrix aux = mat1.getAdjugate();
+
+        mat1 = mat1.getAdjugate();
+
+        for (int i = 0; i < matrix.getRowDimension(); i++) {
+            for (int j = 0; j < matrix.getColumnDimension(); j++) {
+                array[i][j] = utilsHill.modulo((int) mat1.get(i, j), utilsHill.NUM_2CHARS);
+            }
+        }
+
+        Matrix matriz = new Matrix(array);
+        matriz = matriz.times(det);
+        matriz = new Matrix(moduloMatriz(matriz.getArrayCopy()));
+        return matriz;
+    }
+
+    /**
+     * Calcula el MODULAR MULTIPLICATIVE INVERSE de dos números a, m
+     * @param a es el número al que se le quiere hallar el inverso
+     * @param m es el número que se usará como módulo
+     * @return
+     * @throws Exception
+     */
+    public static int MMI(int a, int m) throws DATA_CONVERSION {
+
+        if (!utilsHill.primosRelativos(a, m)) {
+            throw new DATA_CONVERSION("los números deben ser primos relativos para calcular el inverso");
+        }
+        BigInteger num = new BigInteger(Integer.toString(a));
+        BigInteger numM = new BigInteger(Integer.toString(m));
+        return num.modInverse(numM).intValue();
+    }
+
+    /**
+     * Calcula el módulo para cada elemento de la matriz
+     * @param array
+     * @return
+     */
+    public static double[][] moduloMatriz(double[][] array) {
+
+        for (int i = 0; i < array.length; i++) {
+            for (int j = 0; j < array[0].length; j++) {
+                array[i][j] = utilsHill.modulo((int) array[i][j], utilsHill.NUM_2CHARS);
+
+            }
+        }
+        return array;
+    }
+
+    /**
+     * Calcula el módulo para cada elemento de la matriz
+     * @param array
+     * @return
+     */
+    public static Matrix moduloMatriz(Matrix matrix) {
+        for (int i = 0; i < matrix.getRowDimension(); i++) {
+            for (int j = 0; j < matrix.getColumnDimension(); j++) {
+                matrix.set(i, j, matrix.get(i, j) % utilsHill.NUM_2CHARS);
+            }
+        }
+        return matrix;
+    }
+
+    /**
+     * Determina si una matriz es inversible o no
+     * @param matriz
+     * @return
+     */
+    public static boolean inversible(Matrix matriz) {
+        try {
+            int det = (int) determinante(matriz);
+            det = MMI((int) det, utilsHill.NUM_2CHARS);
+            return true;
+        } catch (DATA_CONVERSION ex) {
+            return false;
+        }
+    }
+
+    public static void printMatrix(Matrix matrix) {
+        String print = "";
+        for (int i = 0; i < matrix.getRowDimension(); i++) {
+            for (int j = 0; j < matrix.getColumnDimension(); j++) {
+                print = print.concat(Double.toString(matrix.get(i, j)) + "\t");
+            }
+            print = print.concat("\n");
+        }
+        System.out.println(print);
     }
 }

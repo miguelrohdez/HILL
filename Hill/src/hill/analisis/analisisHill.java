@@ -10,6 +10,7 @@ import hill.excepciones.TextoException;
 import hill.utils.utilsHill;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.HashSet;
 import java.util.LinkedList;
 import org.omg.CORBA.DATA_CONVERSION;
 
@@ -21,6 +22,7 @@ public class analisisHill {
 
     private CSHill cryptSyst;
     private LinkedList<String> digramas;
+    private ArrayList<String> digramasCompletos;
     private static boolean fin;
     private String letrasComienzoInvalido = "xyzkw";
     private String repetidasValidas = "ceolr";
@@ -35,6 +37,7 @@ public class analisisHill {
     private String[] validaX = {"adeilnorsuz", "aedou ", "aeiou ", "adeioulnrs ", "aireuln ", "aeiocudmnx ",
         "abcefglnrsioptu ", "aeimorsu ", "aeionlrsu ", "aceilnfoprsuxz ", "abcdefgilnoprstu ", "abdeilnoru ",
         "abeilnorsu ", "aceilnoprsux "};
+    private HashSet<String> digsCompletos;
 
     public analisisHill() {
         cryptSyst = new CSHill();
@@ -42,37 +45,168 @@ public class analisisHill {
         fin = false;
     }
 
-    public String analizar(String txtCifrado, ArrayList<String> camposMatrix) throws Exception {
-//        analisisSupuesto(txtCifrado, col1, col2, col3);
-        return analisisAleatorio(txtCifrado);
+    public LinkedList<String> getDigramas() {
+        return digramas;
     }
 
-    public void analisisSupuesto(String txtCifrado, ArrayList<String> camposMatrix) throws Exception {
+    public void setDigramas(LinkedList<String> digramas) {
+        this.digramas = digramas;
+    }
+
+    public ArrayList<String> getDigramasCompletos() {
+        return digramasCompletos;
+    }
+
+    public void setDigramasCompletos(ArrayList<String> digramasCompletos) {
+        this.digramasCompletos = digramasCompletos;
+    }
+
+    public ArrayList analizar(String txtCifrado, ArrayList<String> camposMatrix) throws Exception {
+        ArrayList<Matrix> posiblesColumnas = analisisColumnas(txtCifrado);
+        int combinPosibles = 1;
+
+        //Calcula todas las combinaciones que se pueden hacer con el número de
+        //columnas hallado en el paso anterior. Realiza una Multiplicatoria
+        for (int i = 1; i <= posiblesColumnas.size(); i++) {
+            combinPosibles *= i;
+        }
+
+        for (int i = 0; i < combinPosibles; i++) {
+        }
+        return null;
+//                analisisColumnas(txtCifrado);
+//        return analisisSupuesto(txtCifrado, camposMatrix);
+//        return analisisAleatorio(txtCifrado);
+    }
+
+    public String analisisSupuesto(String txtCifrado, ArrayList<String> camposMatrix) throws Exception {
         int count = 0;
-        Matrix matriz = new Matrix(3, 3);
+        Matrix matrizB = new Matrix(3, 3);
+        Matrix matrizA = new Matrix(3, 3);
+        Matrix matrizX = new Matrix(3, 3);
+        Matrix matrizAInv = new Matrix(3, 3);
+        String descifrado = "";
         Matrix vector = new Matrix(1, 3);
-        for (int i = 0; i < palabrasClave.length; i++) {
+        ArrayList<Integer> indicesFil = new ArrayList<Integer>();
+        ArrayList<Integer> indicesCol = new ArrayList<Integer>();
+
+        //inicializa la matrizB con los caracteres de entrada de camposMatrix
+        for (int i = 0; i < 3; i++) {
             String aux = camposMatrix.get(i * 3).concat(camposMatrix.get(i * 3 + 1)).concat(camposMatrix.get(i * 3 + 2));
             vector = CSHill.getVectorInt(aux);
-            for (int j = 0; j < palabrasClave.length; j++) {
-                matriz.set(i, j,vector.get(0, j));
-                if(!aux.substring((j*2), (j*2)+2).equals("__")){
-                    count ++;
+            for (int j = 0; j < 3; j++) {
+                matrizB.set(i, j, vector.get(0, j));
+                if (aux.substring((j * 2), (j * 2) + 2).equals("__")) {
+                    count++;
+                    //se agrega a los arreglos el valor en el cual falta una
+                    //entrada para saber en que posiciones se debe probar
+                    indicesFil.add(i);
+                    indicesCol.add(j);
                 }
             }
         }
-
-        if (count > 1) {
-
-            if (count == 3) {
-                analisisSimple(matriz);
-            } else if (count == 2) {
-                LinkedList<String> digramasCadena = new LinkedList<String>();
-                //analisisMixto(digramasCadena, indices);
+        int numDigs = utilsHill.NUM_SALTO;
+        ArrayList<String> auxDigsComp = new ArrayList<String>();
+        //ciclo para recorrer los digramas del español
+        for (int i = 0; i < digramasCompletos.size(); i += utilsHill.NUM_DIGS) {
+            //se recorren en bloques de tamaño utilsHill.NUM_DIGS
+            for (int j = 0; j < utilsHill.NUM_DIGS && i + j < digramasCompletos.size(); j++) {
+                auxDigsComp.add(digramasCompletos.get(i + j));
             }
-        } else {
-            throw new Exception("No se pueden realizar supuestos para el análisis");
         }
+
+        //se pretende solucionar el sistema de matrices A*X=B haciendo uso de la
+        //matriz inversa se tiene que X=Inv(A)*B
+        while (!fin) {
+            auxDigsComp.clear();
+            for (int i = 0; i < numDigs; i++) {
+                auxDigsComp.add(digramasCompletos.get(i));
+            }
+            System.out.println("analizando: " + numDigs + " digramas");
+            long start = System.currentTimeMillis();
+            //los 9 for generan la matrizA
+            for (int i = 0; i < auxDigsComp.size() && !fin; i++) {
+                for (int j = 0; j < auxDigsComp.size() && !fin; j++) {
+                    for (int k = 0; k < auxDigsComp.size() && !fin; k++) {
+                        for (int l = 0; l < auxDigsComp.size() && !fin; l++) {
+                            for (int m = 0; m < auxDigsComp.size() && !fin; m++) {
+                                for (int n = 0; n < auxDigsComp.size() && !fin; n++) {
+                                    for (int o = 0; o < auxDigsComp.size() && !fin; o++) {
+                                        for (int p = 0; p < auxDigsComp.size() && !fin; p++) {
+                                            for (int q = 0; q < auxDigsComp.size() && !fin; q++) {
+                                                if (i >= numDigs - 3 || j >= numDigs - 3 || k >= numDigs - 3 || l >= numDigs - 3 || m >= numDigs - 3 || n >= numDigs - 3 || o >= numDigs - 3 || p >= numDigs - 3 || q >= numDigs - 3) {
+                                                    matrizA.set(0, 0, utilsHill.digramaToNum(auxDigsComp.get(i)));
+                                                    matrizA.set(0, 1, utilsHill.digramaToNum(auxDigsComp.get(j)));
+                                                    matrizA.set(0, 2, utilsHill.digramaToNum(auxDigsComp.get(k)));
+                                                    matrizA.set(1, 0, utilsHill.digramaToNum(auxDigsComp.get(l)));
+                                                    matrizA.set(1, 1, utilsHill.digramaToNum(auxDigsComp.get(m)));
+                                                    matrizA.set(1, 2, utilsHill.digramaToNum(auxDigsComp.get(n)));
+                                                    matrizA.set(2, 0, utilsHill.digramaToNum(auxDigsComp.get(o)));
+                                                    matrizA.set(2, 1, utilsHill.digramaToNum(auxDigsComp.get(p)));
+                                                    matrizA.set(2, 2, utilsHill.digramaToNum(auxDigsComp.get(q)));
+                                                    if (utilsHill.inversible(matrizA)) {
+                                                        matrizAInv = utilsHill.getInversa(matrizA);
+                                                        //si matriz de datos ingresada contiene todos los datos
+                                                        if (count == 0) {
+                                                            matrizX = matrizAInv.times(matrizB);
+                                                            matrizX = utilsHill.moduloMatriz(matrizX);
+                                                            if (utilsHill.inversible(matrizX)) {
+                                                                try {
+                                                                    descifrado = CSHill.descifrar(txtCifrado.substring(0, 30), matrizX);
+                                                                } catch (DATA_CONVERSION ex) {
+                                                                }
+                                                                if (!descifrado.equals("")) {
+                                                                    utilsHill.printMatrix(matrizX);
+                                                                    if (inicialmenteValida(descifrado)) {
+                                                                        descifrado = CSHill.descifrar(txtCifrado, matrizX);
+                                                                        if (totalmenteValida(descifrado)) {
+                                                                            fin = true;
+                                                                        }
+                                                                    }
+                                                                }
+                                                            }
+                                                        } else {
+                                                            for (int r = 0; r < indicesFil.size(); r++) {
+                                                                switch (indicesFil.size()) {
+                                                                    case 1: {
+                                                                        for (int s = 0; s < utilsHill.NUM_2CHARS; s++) {
+                                                                            matrizB.set(indicesFil.get(r), indicesCol.get(r), s);
+                                                                        }
+                                                                    }
+                                                                    case 2: {
+                                                                        for (int s = 0; s < utilsHill.NUM_2CHARS; s++) {
+                                                                            matrizB.set(indicesFil.get(r), indicesCol.get(r), s);
+
+                                                                        }
+                                                                    }
+                                                                    case 3: {
+                                                                        for (int s = 0; s < utilsHill.NUM_2CHARS; s++) {
+                                                                            matrizB.set(indicesFil.get(r), indicesCol.get(r), s);
+
+                                                                        }
+                                                                    }
+                                                                    default: {
+                                                                        throw new Exception("No se puede realizar el análisis, ingrese más datos");
+                                                                    }
+                                                                }
+                                                            }
+                                                        }
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+            numDigs += utilsHill.NUM_SALTO;
+            long finish = System.currentTimeMillis();
+            System.out.println("Elapsed time in milis = " + (finish - start));
+        }
+        return descifrado;
     }
 
     /**
@@ -135,9 +269,16 @@ public class analisisHill {
      */
     public void inicializarDigramas() {
         digramas = new LinkedList<String>();
+        digramasCompletos = new ArrayList<String>();
+        digsCompletos = new HashSet<String>();
         String digrAux = java.util.ResourceBundle.getBundle("hill.resources.DigramsFreqs").getString("digramas").toLowerCase();
         for (int i = 0; i < digrAux.length(); i += 2) {
             digramas.add(digrAux.substring(i, i + 2));
+        }
+        digrAux = java.util.ResourceBundle.getBundle("hill.resources.DigramsFreqs").getString("digramasEspCompletos").toLowerCase();
+        for (int i = 0; i < digrAux.length(); i += 2) {
+            digramasCompletos.add(digrAux.substring(i, i + 2));
+            digsCompletos.add(digrAux.substring(i, i + 2));
         }
     }
 
@@ -315,5 +456,64 @@ public class analisisHill {
             }
         }
         return false;
+    }
+
+    public String getFirstAnalysis(String txtCifrado) {
+        LinkedList digsRepetidos = utilsHill.digramasRepetidos(txtCifrado);
+        String output = "Digrama\tPosición\tColumna\n";
+        for (int i = 0; i < digsRepetidos.size(); i += 3) {
+            output = output.concat((String) digsRepetidos.get(i) + "\t" + (Integer) digsRepetidos.get(i + 1) + "\t" + (Integer) digsRepetidos.get(i + 2) + "\n");
+        }
+        return output;
+    }
+
+    public ArrayList<Matrix> analisisColumnas(String txtCifrado) throws TextoException {
+        txtCifrado = txtCifrado.substring(0, txtCifrado.length() - 6);
+        Matrix auxVector = new Matrix(3, 1);
+        ArrayList<Matrix> posibleCol = new ArrayList<Matrix>();
+//        for (int i = 0; i < utilsHill.NUM_2CHARS; i++) {
+        for (int i = 200; i < 280; i++) {
+//            long starti = System.currentTimeMillis();
+            for (int j = 0; j < utilsHill.NUM_2CHARS; j++) {
+//                long startj = System.currentTimeMillis();
+                for (int k = 0; k < utilsHill.NUM_2CHARS; k++) {
+                    auxVector.set(0, 0, i);
+                    auxVector.set(1, 0, j);
+                    auxVector.set(2, 0, k);
+                    if (descifrarParcial(txtCifrado, auxVector)) {
+                        posibleCol.add(new Matrix(auxVector.getArrayCopy()));
+                        utilsHill.printMatrix(auxVector);
+                    }
+                }
+//                System.out.println("j=" + j);
+//                long finishj = System.currentTimeMillis();
+//                System.out.println("Elapsed time in milis = " + (finishj - startj));
+            }
+//            System.out.println("i=" + i);
+//            long finish = System.currentTimeMillis();
+//            System.out.println("Elapsed time in milis = " + (finish - starti));
+        }
+        for (Matrix matr : posibleCol) {
+            utilsHill.printMatrix(matr);
+            System.out.println("\n");
+        }
+        return posibleCol;
+    }
+
+    public boolean descifrarParcial(String txtCifrado, Matrix vector) throws TextoException {
+        Matrix result = new Matrix(1, 1);
+        String aux = "";
+        Matrix vectorPalabra = new Matrix(1, 3);
+        for (int i = 0; i < txtCifrado.length(); i += 6) {
+            aux = txtCifrado.substring(i, i + 6);
+            vectorPalabra = CSHill.getVectorInt(aux);
+            result = vectorPalabra.times(vector);
+            result.set(0, 0, result.get(0, 0) % utilsHill.NUM_2CHARS);
+//            System.out.println(utilsHill.numToDigrama((int) result.get(0, 0)));
+            if (!digsCompletos.contains(utilsHill.numToDigrama((int) result.get(0, 0)))) {
+                return false;
+            }
+        }
+        return true;
     }
 }

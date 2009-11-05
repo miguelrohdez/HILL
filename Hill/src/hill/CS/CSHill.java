@@ -7,12 +7,10 @@ package hill.CS;
 import hill.excepciones.ClaveException;
 import hill.excepciones.TextoException;
 import hill.utils.utilsHill;
-import java.math.BigInteger;
 import java.util.HashSet;
 import java.util.StringTokenizer;
 import org.apache.commons.math.fraction.FractionConversionException;
 import Jama.Matrix;
-import org.omg.CORBA.DATA_CONVERSION;
 /**
  *
  * @author fakefla-kubuntu
@@ -102,7 +100,7 @@ public class CSHill {
         }
         txtCifrado = utilsHill.adjustString(txtCifrado, 6);
         txtClaro = "";
-        Matrix claveInv = getInversa(clave);
+        Matrix claveInv = utilsHill.getInversa(clave);
         txtClaro=toTexto(txtCifrado, claveInv);
     }
 
@@ -121,7 +119,7 @@ public class CSHill {
         }
         Matrix claveMatrix = new Matrix(clave);
         double det=utilsHill.determinante(claveMatrix);
-        if(!determinantes.contains(MMI((int)det, utilsHill.NUM_2CHARS))){
+        if(!determinantes.contains(utilsHill.MMI((int)det, utilsHill.NUM_2CHARS))){
             throw new ClaveException("matriz clave inválida");
         }
         txtCifrado = utilsHill.adjustString(txtCifrado, 6);
@@ -142,7 +140,7 @@ public class CSHill {
             throw new TextoException("el texto contiene caracteres inválidos");
         }
         double det=utilsHill.determinante(clave);
-        if(!determinantes.contains(MMI((int)det, utilsHill.NUM_2CHARS))){
+        if(!determinantes.contains(utilsHill.MMI((int)det, utilsHill.NUM_2CHARS))){
             throw new ClaveException("matriz clave inválida");
         }
         txtCifrado = utilsHill.adjustString(txtCifrado, 6);
@@ -183,67 +181,6 @@ public class CSHill {
     }
 
     /**
-     * Calcula el módulo para cada elemento de la matriz
-     * @param array
-     * @return
-     */
-    public static double[][] moduloMatriz(double[][] array) {
-
-        for (int i = 0; i < array.length; i++) {
-            for (int j = 0; j < array[0].length; j++) {
-                array[i][j] = utilsHill.modulo((int) array[i][j], utilsHill.NUM_2CHARS);
-
-            }
-        }
-        return array;
-    }
-
-    /**
-     * Calcula la matriz inversa (para el algoritmo) de la ingresada
-     * @param matrix
-     * @return
-     * @throws Exception
-     */
-    public static Matrix getInversa(Matrix matrix) throws DATA_CONVERSION {
-        
-        double[][] array = matrix.getArrayCopy();
-        org.codezealot.matrix.Matrix mat1 = new org.codezealot.matrix.Matrix(matrix.getRowDimension(), matrix.getColumnDimension(), array);
-//        org.codezealot.matrix.Matrix aux = mat1.getAdjugate();
-        
-        mat1 = mat1.getAdjugate();
-
-        for (int i = 0; i < matrix.getRowDimension(); i++) {
-            for (int j = 0; j < matrix.getColumnDimension(); j++) {
-                array[i][j] = utilsHill.modulo((int) mat1.get(i, j), utilsHill.NUM_2CHARS);
-            }
-        }
-        
-        double det = (int)utilsHill.determinante(matrix);
-        Matrix matriz = new Matrix(array);
-        det = MMI((int) det, utilsHill.NUM_2CHARS);
-        matriz = matriz.times(det);
-        matriz = new Matrix(moduloMatriz(matriz.getArrayCopy()));
-        return matriz;
-    }
-
-    /**
-     * Calcula el MODULAR MULTIPLICATIVE INVERSE de dos números a, m
-     * @param a es el número al que se le quiere hallar el inverso
-     * @param m es el número que se usará como módulo
-     * @return
-     * @throws Exception
-     */
-    public static int MMI(int a, int m) throws DATA_CONVERSION {
-
-        if (!utilsHill.primosRelativos(a, m)) {
-            throw new DATA_CONVERSION("los números deben ser primos relativos para calcular el inverso");
-        }
-        BigInteger num = new BigInteger(Integer.toString(a));
-        BigInteger numM = new BigInteger(Integer.toString(m));
-        return num.modInverse(numM).intValue();
-    }
-
-    /**
      * Calcula el texto asociado para una cadena de 3 digramas usando la matriz
      * clave que entra como parámetro (proceso final de descifrado)
      * @param txtClaro
@@ -257,15 +194,15 @@ public class CSHill {
         for (int i = 0; i < txtClaro.length(); i += 6) {
             vector = getVectorInt(txtClaro.substring(i, i + 6));
             vector = vector.times(claveMatrix);
-            vector.set(0, 0, utilsHill.modulo((int) vector.get(0, 0), utilsHill.NUM_2CHARS));
-            vector.set(0, 1, utilsHill.modulo((int) vector.get(0, 1), utilsHill.NUM_2CHARS));
-            vector.set(0, 2, utilsHill.modulo((int) vector.get(0, 2), utilsHill.NUM_2CHARS));
-            txtCifr = txtCifr.concat(Character.toString(utilsHill.getChar((int) (vector.get(0, 0) / utilsHill.NUM_CHARS))));
-            txtCifr = txtCifr.concat(Character.toString(utilsHill.getChar((int) (vector.get(0, 0) % utilsHill.NUM_CHARS))));
-            txtCifr = txtCifr.concat(Character.toString(utilsHill.getChar((int) (vector.get(0, 1) / utilsHill.NUM_CHARS))));
-            txtCifr = txtCifr.concat(Character.toString(utilsHill.getChar((int) (vector.get(0, 1) % utilsHill.NUM_CHARS))));
-            txtCifr = txtCifr.concat(Character.toString(utilsHill.getChar((int) (vector.get(0, 2) / utilsHill.NUM_CHARS))));
-            txtCifr = txtCifr.concat(Character.toString(utilsHill.getChar((int) (vector.get(0, 2) % utilsHill.NUM_CHARS))));
+            vector.set(0, 0, utilsHill.modulo((int)Math.floor(vector.get(0, 0)), utilsHill.NUM_2CHARS));
+            vector.set(0, 1, utilsHill.modulo((int) Math.floor(vector.get(0, 1)), utilsHill.NUM_2CHARS));
+            vector.set(0, 2, utilsHill.modulo((int) Math.floor(vector.get(0, 2)), utilsHill.NUM_2CHARS));
+            txtCifr = txtCifr.concat(Character.toString(utilsHill.getChar((int) Math.floor(vector.get(0, 0) / utilsHill.NUM_CHARS))));
+            txtCifr = txtCifr.concat(Character.toString(utilsHill.getChar((int) Math.floor(vector.get(0, 0) % utilsHill.NUM_CHARS))));
+            txtCifr = txtCifr.concat(Character.toString(utilsHill.getChar((int) Math.floor(vector.get(0, 1) / utilsHill.NUM_CHARS))));
+            txtCifr = txtCifr.concat(Character.toString(utilsHill.getChar((int) Math.floor(vector.get(0, 1) % utilsHill.NUM_CHARS))));
+            txtCifr = txtCifr.concat(Character.toString(utilsHill.getChar((int) Math.floor(vector.get(0, 2) / utilsHill.NUM_CHARS))));
+            txtCifr = txtCifr.concat(Character.toString(utilsHill.getChar((int) Math.floor(vector.get(0, 2) % utilsHill.NUM_CHARS))));
         }
         return txtCifr;
     }
