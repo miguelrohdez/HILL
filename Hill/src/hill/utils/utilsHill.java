@@ -286,4 +286,15 @@ public class utilsHill {
         }
         System.out.println(print);
     }
+
+    public static String matrixToString(Matrix matrix) {
+        String print = "";
+        for (int i = 0; i < matrix.getRowDimension(); i++) {
+            for (int j = 0; j < matrix.getColumnDimension(); j++) {
+                print = print.concat(Double.toString(matrix.get(i, j)) + "\t");
+            }
+            print = print.concat("\n");
+        }
+        return print;
+    }
 }

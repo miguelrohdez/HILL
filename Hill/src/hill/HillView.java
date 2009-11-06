@@ -3,6 +3,7 @@
  */
 package hill;
 
+import Jama.Matrix;
 import hill.CS.CSHill;
 import hill.analisis.analisisHill;
 import hill.utils.utilsHill;
@@ -500,58 +501,66 @@ public class HillView extends FrameView {
     private void jButtonAnalizarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonAnalizarActionPerformed
         try {
             analisisHill analizador = new analisisHill();
-            if (jTextAreaAnalisis.getText().equals("")) {
-                jTextAreaAnalisis.setText(analizador.getFirstAnalysis(utilsHill.arreglarCadena(jTextAreaTxtCifrado.getText().trim())));
+
+            ArrayList<String> cadenasMatrix = new ArrayList<String>();
+            if (jTextFieldAnalisis00.getText().equals("")) {
+                cadenasMatrix.add("__");
             } else {
-                ArrayList<String> cadenasMatrix = new ArrayList<String>();
-                if (jTextFieldAnalisis00.getText().equals("")) {
-                    cadenasMatrix.add("__");
-                } else {
-                    cadenasMatrix.add(jTextFieldAnalisis00.getText());
-                }
-                if (jTextFieldAnalisis01.getText().equals("")) {
-                    cadenasMatrix.add("__");
-                } else {
-                    cadenasMatrix.add(jTextFieldAnalisis01.getText());
-                }
-                if (jTextFieldAnalisis02.getText().equals("")) {
-                    cadenasMatrix.add("__");
-                } else {
-                    cadenasMatrix.add(jTextFieldAnalisis02.getText());
-                }
-                if (jTextFieldAnalisis10.getText().equals("")) {
-                    cadenasMatrix.add("__");
-                } else {
-                    cadenasMatrix.add(jTextFieldAnalisis10.getText());
-                }
-                if (jTextFieldAnalisis11.getText().equals("")) {
-                    cadenasMatrix.add("__");
-                } else {
-                    cadenasMatrix.add(jTextFieldAnalisis11.getText());
-                }
-                if (jTextFieldAnalisis12.getText().equals("")) {
-                    cadenasMatrix.add("__");
-                } else {
-                    cadenasMatrix.add(jTextFieldAnalisis12.getText());
-                }
-                if (jTextFieldAnalisis20.getText().equals("")) {
-                    cadenasMatrix.add("__");
-                } else {
-                    cadenasMatrix.add(jTextFieldAnalisis20.getText());
-                }
-                if (jTextFieldAnalisis21.getText().equals("")) {
-                    cadenasMatrix.add("__");
-                } else {
-                    cadenasMatrix.add(jTextFieldAnalisis21.getText());
-                }
-                if (jTextFieldAnalisis22.getText().equals("")) {
-                    cadenasMatrix.add("__");
-                } else {
-                    cadenasMatrix.add(jTextFieldAnalisis22.getText());
-                }
-                ArrayList descifrado = analizador.analizar(utilsHill.arreglarCadena(jTextAreaTxtCifrado.getText().trim()), cadenasMatrix);
-//                jTextAreaTxtClaro.setText(descifrado);
+                cadenasMatrix.add(jTextFieldAnalisis00.getText());
             }
+            if (jTextFieldAnalisis01.getText().equals("")) {
+                cadenasMatrix.add("__");
+            } else {
+                cadenasMatrix.add(jTextFieldAnalisis01.getText());
+            }
+            if (jTextFieldAnalisis02.getText().equals("")) {
+                cadenasMatrix.add("__");
+            } else {
+                cadenasMatrix.add(jTextFieldAnalisis02.getText());
+            }
+            if (jTextFieldAnalisis10.getText().equals("")) {
+                cadenasMatrix.add("__");
+            } else {
+                cadenasMatrix.add(jTextFieldAnalisis10.getText());
+            }
+            if (jTextFieldAnalisis11.getText().equals("")) {
+                cadenasMatrix.add("__");
+            } else {
+                cadenasMatrix.add(jTextFieldAnalisis11.getText());
+            }
+            if (jTextFieldAnalisis12.getText().equals("")) {
+                cadenasMatrix.add("__");
+            } else {
+                cadenasMatrix.add(jTextFieldAnalisis12.getText());
+            }
+            if (jTextFieldAnalisis20.getText().equals("")) {
+                cadenasMatrix.add("__");
+            } else {
+                cadenasMatrix.add(jTextFieldAnalisis20.getText());
+            }
+            if (jTextFieldAnalisis21.getText().equals("")) {
+                cadenasMatrix.add("__");
+            } else {
+                cadenasMatrix.add(jTextFieldAnalisis21.getText());
+            }
+            if (jTextFieldAnalisis22.getText().equals("")) {
+                cadenasMatrix.add("__");
+            } else {
+                cadenasMatrix.add(jTextFieldAnalisis22.getText());
+            }
+            String txtCifrado = utilsHill.arreglarCadena(jTextAreaTxtCifrado.getText().trim());
+            ArrayList descifrado = analizador.analizar(txtCifrado);
+            if(descifrado.isEmpty()){
+                throw new Exception("El texto no pudo ser desencriptado");
+            }
+            String txtDescifrado = "";
+            String matrixDescifrado = "";
+            for (int i = 0; i <descifrado.size() ; i+=2) {
+                txtDescifrado=txtDescifrado.concat((String)descifrado.get(i)+"\n");
+                matrixDescifrado = matrixDescifrado.concat(utilsHill.matrixToString((Matrix)descifrado.get(i+1))+"\n");
+            }
+            jTextAreaTxtClaro.setText(txtDescifrado);
+            jTextAreaClave.setText(matrixDescifrado);
         } catch (Exception ex) {
             mostrarMensaje(ex.getMessage());
             ex.printStackTrace();

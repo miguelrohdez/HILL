@@ -115,33 +115,6 @@ public class analisisHillTest {
     }
 
     /**
-     * Test of analisisSimple method, of class analisisHill.
-     */
-    @Test
-    public void testAnalisisSimple() {
-            System.out.println("analisisSimple");
-            analisisHill analisis = new analisisHill();
-            String cadena = "lfgñyq";
-//            analisis.analisisSimple(cadena);
-
-    }
-
-    /**
-     * Test of analisisMixto method, of class analisisHill.
-     */
-    @Test
-    public void testAnalisisMixto() {
-        System.out.println("analisisMixto");
-        analisisHill analisis = new analisisHill();
-        LinkedList<String> digramas = null;
-        LinkedList<Integer> indices = null;
-        LinkedList<Integer> colsInvar = null;
-        analisis.analisisMixto(digramas, indices, colsInvar);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
-    }
-
-    /**
      * Test of inicializarDigramas method, of class analisisHill.
      */
     @Test
@@ -306,20 +279,6 @@ public class analisisHillTest {
         fail("The test case is a prototype.");
     }
 
-    /**
-     * Test of getFirstAnalysis method, of class analisisHill.
-     */
-    @Test
-    public void testGetFirstAnalysis() {
-        System.out.println("getFirstAnalysis");
-        String txtCifrado = "";
-        analisisHill instance = new analisisHill();
-        String expResult = "";
-        String result = instance.getFirstAnalysis(txtCifrado);
-        assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
-    }
 
     /**
      * Test of analisisColumnas method, of class analisisHill.
@@ -327,12 +286,12 @@ public class analisisHillTest {
     @Test
     public void testAnalisisColumnas() throws Exception {
         System.out.println("analisisColumnas");
-        String txtCifrado = "twqmsctgubopydoxbzwn bitdxvammcrrkrjdvjrdknadpuylwmxpñlwbqjeqgnsfprwfpubaeñsawsjwyht wzzzpir stpzsmtwuhisaqojhvjyvzsioycxljzzivññrnn vvmvlovhupogbyuki wzzzpir stpjdlxtptkvzaqpbkqrñojvuneispbboihmscrmfmjatg prgpovegiyhysfxphadcmlstñbxcsqzndaugññtupyeygqoypbemmukpvrsbwptancytdev rñtiimbqckyuxaxhthf dsxcutlaeszpxrhñ oyuknhyzpdxvammyzvnnl";
+        String txtCifrado = "foueknñ lremjjdsaatxwpñxbdlsmzlfgñyqvmukmiehñ tziczwitiibxsxfcjwpprtdhdrecz nqkñzlksljwayyfñthkfeuuñmnsxfkofñilrftbdksczlfgñyqbqpjnydgrrsqwdddxcbmephapovzvavbexgbdñipgoafmkgfsnotcbtktxi sc xcoavajlxxjxnznchryxrkñurrndhvrxaprkeisfpbñynvo  izdwiñumjpucyjxpupcjtjiztoyhbuñfyahroj yfxh tdhsdzyjpnrxzbwjiogbvvul ovrftx aoxsqjwqfjyhbuñfklnswr";
         txtCifrado = utilsHill.arreglarCadena(txtCifrado);
         analisisHill instance = new analisisHill();
         Matrix expResult = null;
-        ArrayList result = instance.analisisColumnas(txtCifrado);
-        assertEquals(expResult, result);
+        //ArrayList result = instance.analisisColumnas(txtCifrado);
+        //assertEquals(expResult, result);
     }
 
     /**
@@ -360,6 +319,97 @@ public class analisisHillTest {
         System.out.println(result);
         assertEquals(expResult, result);
         // TODO review the generated test code and remove the default call to fail.
+    }
+
+    /**
+     * Test of generatePerms method, of class analisisHill.
+     */
+    @Test
+    public void testGeneratePerms() {
+        System.out.println("generatePerms");
+        ArrayList<Matrix> posiblesColumnas = new ArrayList<Matrix>();
+        posiblesColumnas.add(new Matrix(1, 1));
+        posiblesColumnas.add(new Matrix(1, 1));
+        posiblesColumnas.add(new Matrix(1, 1));
+        analisisHill instance = new analisisHill();
+        ArrayList expResult = null;
+        ArrayList<int[]> result = instance.generatePerms(posiblesColumnas);
+        for (int i = 0; i < result.size(); i++) {
+            System.out.println(result.get(i)[0]+","+result.get(i)[1]+","+result.get(i)[2]);
+        }
+        assertEquals(expResult, result);
+    }
+
+    /**
+     * Test of truncateArrays method, of class analisisHill.
+     */
+    @Test
+    public void testTruncateArrays() {
+        System.out.println("truncateArrays");
+        ArrayList<int[]> arrays = null;
+        int numTrunc = 0;
+        analisisHill instance = new analisisHill();
+        ArrayList expResult = null;
+        ArrayList result = instance.truncateArrays(arrays, numTrunc);
+        assertEquals(expResult, result);
+        // TODO review the generated test code and remove the default call to fail.
+        fail("The test case is a prototype.");
+    }
+
+    /**
+     * Test of generateMatrix method, of class analisisHill.
+     */
+    @Test
+    public void testGenerateMatrix() {
+        System.out.println("generateMatrix");
+        ArrayList<int[]> perms = null;
+        ArrayList<Matrix> posiblesColumnas = null;
+        analisisHill instance = new analisisHill();
+        ArrayList expResult = null;
+//        ArrayList result = instance.generateMatrix(perms, posiblesColumnas);
+//        assertEquals(expResult, result);
+        // TODO review the generated test code and remove the default call to fail.
+        fail("The test case is a prototype.");
+    }
+
+    /**
+     * Test of setPermutation method, of class analisisHill.
+     */
+    @Test
+    public void testSetPermutation() {
+        System.out.println("setPermutation");
+        int[] perm = new int[]{3,2,0};
+        ArrayList<Matrix> posiblesColumnas = new ArrayList<Matrix>();
+        double[][] aux0 = new double[][]{{0},{0},{0}};
+        posiblesColumnas.add(new Matrix(aux0));
+        double[][] aux1 = new double[][]{{1},{1},{1}};
+        posiblesColumnas.add(new Matrix(aux1));
+        double[][] aux2 = new double[][]{{2},{2},{2}};
+        posiblesColumnas.add(new Matrix(aux2));
+        double[][] aux3 = new double[][]{{3},{3},{3}};
+        posiblesColumnas.add(new Matrix(aux3));
+        analisisHill instance = new analisisHill();
+        Matrix expResult = null;
+        Matrix result = instance.setPermutation(perm, posiblesColumnas);
+        utilsHill.printMatrix(result);
+        assertEquals(expResult, result);
+        // TODO review the generated test code and remove the default call to fail.
+    }
+
+    /**
+     * Test of truncateArray method, of class analisisHill.
+     */
+    @Test
+    public void testTruncateArray() {
+        System.out.println("truncateArray");
+        int[] array = null;
+        int numTrunc = 0;
+        analisisHill instance = new analisisHill();
+        int[] expResult = null;
+        int[] result = instance.truncateArray(array, numTrunc);
+        assertEquals(expResult, result);
+        // TODO review the generated test code and remove the default call to fail.
+        fail("The test case is a prototype.");
     }
 
 }

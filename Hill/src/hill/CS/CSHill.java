@@ -123,7 +123,8 @@ public class CSHill {
             throw new ClaveException("matriz clave inválida");
         }
         txtCifrado = utilsHill.adjustString(txtCifrado, 6);
-        return toTexto(txtCifrado, claveMatrix);
+        Matrix claveInv = utilsHill.getInversa(new Matrix(clave));
+        return toTexto(txtCifrado, claveInv);
     }
 
     /**
@@ -144,7 +145,28 @@ public class CSHill {
             throw new ClaveException("matriz clave inválida");
         }
         txtCifrado = utilsHill.adjustString(txtCifrado, 6);
-        return toTexto(txtCifrado, clave);
+        Matrix claveInv = utilsHill.getInversa(clave);
+        return toTexto(txtCifrado, claveInv);
+    }
+
+    /**
+     * Función que descifra un texto con una clave INVERTIDA es decir que no
+     * invierte la matriz para realizar el cálculo
+     * @param txtCifrado
+     * @param claveInv
+     * @return
+     * @throws Exception
+     */
+    public static String descifrarInv(String txtCifrado, Matrix claveInv) throws Exception {
+        if (!txtCifrado.matches("[A-Za-zñ ]+")) {
+            throw new TextoException("el texto contiene caracteres inválidos");
+        }
+        double det=utilsHill.determinante(claveInv);
+        if(!determinantes.contains(utilsHill.MMI((int)det, utilsHill.NUM_2CHARS))){
+            throw new ClaveException("matriz clave inválida");
+        }
+        txtCifrado = utilsHill.adjustString(txtCifrado, 6);
+        return toTexto(txtCifrado, claveInv);
     }
 
     /**
