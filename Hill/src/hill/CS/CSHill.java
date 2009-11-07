@@ -11,6 +11,7 @@ import java.util.HashSet;
 import java.util.StringTokenizer;
 import org.apache.commons.math.fraction.FractionConversionException;
 import Jama.Matrix;
+
 /**
  *
  * @author fakefla-kubuntu
@@ -20,15 +21,24 @@ public class CSHill {
     private Matrix clave;
     private String txtCifrado;
     private String txtClaro;
-    private static HashSet determinantes;
+    private static HashSet determinantes; //TABLA INDEXADA -> Búsquedas Rápidas
 
+    /**
+     * CONSTRUCTOR, inicializa el objeto de la clase
+     */
     public CSHill() {
-        this.clave = new Matrix(3, 3);
-        this.txtCifrado = "";
-        this.txtClaro = "";
-        determinantes = inicializarDeterminantes();
+        this.clave = new Matrix(3, 3); //inicialmente en ceros
+        this.txtCifrado = ""; //inicialmente en blanco
+        this.txtClaro = ""; //inicialmente en blanco
+        determinantes = inicializarDeterminantes(); //pone los determinantes válidos en el hash set
     }
 
+    /**
+     * Constructor que recibe como parámetro la clave con que se desea construir
+     * el cripto - sistema
+     * @param clave
+     * @throws ClaveException
+     */
     public CSHill(String clave) throws ClaveException {
         construirClave(clave);
         txtCifrado = "";
@@ -56,29 +66,47 @@ public class CSHill {
         return clave;
     }
 
+    /**
+     * Inicializa la matriz clave a partir de una cadena de texto
+     * @param clave
+     * @throws ClaveException
+     */
     public void construirClave(String clave) throws ClaveException {
+        //Divisón de la cadena de texto cada que encuentre una coma
         StringTokenizer st = new StringTokenizer(clave, ",");
 
         if (st.countTokens() != 9) {
             throw new ClaveException("La clave debe contener 9 dígitos");
         }
 
+        //Declaro arreglo de dobles para la matriz de tam 3x3
         double[][] matrix = new double[3][3];
         int i = 0;
 
+        //mientras tenga más particiones (Tokens) ... realize
         while (st.hasMoreTokens()) {
+            //se va llenando la matriz con los números a partir de los string
+            //Double.parseDouble transforma de String a número real
             matrix[i / 3][i % 3] = Double.parseDouble(st.nextToken());
             i++;
         }
+        //calcula el determinante de la matriz
         int determinante = (int) utilsHill.determinante(new Matrix(matrix));
+        //si el determinante no es primo relativo con 784 se arroja un error
         if (!determinantes.contains(determinante)) {
             throw new ClaveException("La matriz clave no es válida");
         }
         this.clave = new Matrix(matrix);
     }
 
+    /**
+     * Cifra!
+     * @param txtClaro
+     * @throws TextoException
+     */
     public void cifrar(String txtClaro) throws TextoException {
-        if (!txtClaro.matches("[A-Za-zñ ]+")) {
+        //Comparación contra una expresión regular
+        if (!txtClaro.matches("[A-Za-zñÑ ]+")) {
             throw new TextoException("el texto contiene caracteres inválidos");
         }
         txtClaro = txtClaro.toLowerCase();
@@ -95,58 +123,13 @@ public class CSHill {
      * @throws Exception
      */
     public void descifrar(String txtCifrado) throws TextoException, FractionConversionException, Exception {
-        if (!txtCifrado.matches("[A-Za-zñ ]+")) {
+        if (!txtCifrado.matches("[A-Za-zñÑ ]+")) {
             throw new TextoException("el texto contiene caracteres inválidos");
         }
         txtCifrado = utilsHill.adjustString(txtCifrado, 6);
         txtClaro = "";
         Matrix claveInv = utilsHill.getInversa(clave);
         txtClaro=toTexto(txtCifrado, claveInv);
-    }
-
-    /**
-     * Función que descifra un texto cifrado con una matriz clave ingresada
-     * @param txtCifrado
-     * @param clave arreglo de dos dimensiones que corresponde a la clave
-     * @return
-     * @throws TextoException
-     * @throws FractionConversionException
-     * @throws Exception
-     */
-    public String descifrar(String txtCifrado, double[][] clave) throws TextoException, FractionConversionException, Exception {
-        if (!txtCifrado.matches("[A-Za-zñ ]+")) {
-            throw new TextoException("el texto contiene caracteres inválidos");
-        }
-        Matrix claveMatrix = new Matrix(clave);
-        double det=utilsHill.determinante(claveMatrix);
-        if(!determinantes.contains(utilsHill.MMI((int)det, utilsHill.NUM_2CHARS))){
-            throw new ClaveException("matriz clave inválida");
-        }
-        txtCifrado = utilsHill.adjustString(txtCifrado, 6);
-        Matrix claveInv = utilsHill.getInversa(new Matrix(clave));
-        return toTexto(txtCifrado, claveInv);
-    }
-
-    /**
-     * Función que descifra un texto cifrado con una matriz clave ingresada
-     * @param txtCifrado
-     * @param clave objeto de tipo Matrix que corresponde a la matriz clave
-     * @return
-     * @throws TextoException
-     * @throws FractionConversionException
-     * @throws Exception
-     */
-    public static String descifrar(String txtCifrado, Matrix clave) throws Exception {
-        if (!txtCifrado.matches("[A-Za-zñ ]+")) {
-            throw new TextoException("el texto contiene caracteres inválidos");
-        }
-        double det=utilsHill.determinante(clave);
-        if(!determinantes.contains(utilsHill.MMI((int)det, utilsHill.NUM_2CHARS))){
-            throw new ClaveException("matriz clave inválida");
-        }
-        txtCifrado = utilsHill.adjustString(txtCifrado, 6);
-        Matrix claveInv = utilsHill.getInversa(clave);
-        return toTexto(txtCifrado, claveInv);
     }
 
     /**
@@ -158,7 +141,7 @@ public class CSHill {
      * @throws Exception
      */
     public static String descifrarInv(String txtCifrado, Matrix claveInv) throws Exception {
-        if (!txtCifrado.matches("[A-Za-zñ ]+")) {
+        if (!txtCifrado.matches("[A-Za-zñÑ ]+")) {
             throw new TextoException("el texto contiene caracteres inválidos");
         }
         double det=utilsHill.determinante(claveInv);
@@ -195,6 +178,7 @@ public class CSHill {
     private HashSet inicializarDeterminantes() {
         HashSet aux = new HashSet();
         for (int i = 0; i < 784; i++) {
+            //Si es primo relativo lo agrega al hash set si no, lo ignora
             if (utilsHill.primosRelativos(i, 784)) {
                 aux.add(i);
             }
@@ -205,27 +189,30 @@ public class CSHill {
     /**
      * Calcula el texto asociado para una cadena de 3 digramas usando la matriz
      * clave que entra como parámetro (proceso final de descifrado)
-     * @param txtClaro
+     * @param txt
      * @param claveMatrix
      * @return
      * @throws TextoException
      */
-    public static String toTexto(String txtClaro, Matrix claveMatrix) throws TextoException{
-        String txtCifr="";
+    public static String toTexto(String txt, Matrix claveMatrix) throws TextoException{
+        String resultTxt="";
         Matrix vector = new Matrix(1, 3);
-        for (int i = 0; i < txtClaro.length(); i += 6) {
-            vector = getVectorInt(txtClaro.substring(i, i + 6));
+        for (int i = 0; i < txt.length(); i += 6) {
+            vector = getVectorInt(txt.substring(i, i + 6));
+            //función times multiplica matrices en este caso un vector por una matriz
             vector = vector.times(claveMatrix);
+            //Calcula el módulo para los componentes del vector
             vector.set(0, 0, utilsHill.modulo((int)Math.floor(vector.get(0, 0)), utilsHill.NUM_2CHARS));
             vector.set(0, 1, utilsHill.modulo((int) Math.floor(vector.get(0, 1)), utilsHill.NUM_2CHARS));
             vector.set(0, 2, utilsHill.modulo((int) Math.floor(vector.get(0, 2)), utilsHill.NUM_2CHARS));
-            txtCifr = txtCifr.concat(Character.toString(utilsHill.getChar((int) Math.floor(vector.get(0, 0) / utilsHill.NUM_CHARS))));
-            txtCifr = txtCifr.concat(Character.toString(utilsHill.getChar((int) Math.floor(vector.get(0, 0) % utilsHill.NUM_CHARS))));
-            txtCifr = txtCifr.concat(Character.toString(utilsHill.getChar((int) Math.floor(vector.get(0, 1) / utilsHill.NUM_CHARS))));
-            txtCifr = txtCifr.concat(Character.toString(utilsHill.getChar((int) Math.floor(vector.get(0, 1) % utilsHill.NUM_CHARS))));
-            txtCifr = txtCifr.concat(Character.toString(utilsHill.getChar((int) Math.floor(vector.get(0, 2) / utilsHill.NUM_CHARS))));
-            txtCifr = txtCifr.concat(Character.toString(utilsHill.getChar((int) Math.floor(vector.get(0, 2) % utilsHill.NUM_CHARS))));
+            //Se tiene el texto deseado en números se pasará ahora a letras
+            resultTxt = resultTxt.concat(Character.toString(utilsHill.getChar((int) Math.floor(vector.get(0, 0) / utilsHill.NUM_CHARS))));
+            resultTxt = resultTxt.concat(Character.toString(utilsHill.getChar((int) Math.floor(vector.get(0, 0) % utilsHill.NUM_CHARS))));
+            resultTxt = resultTxt.concat(Character.toString(utilsHill.getChar((int) Math.floor(vector.get(0, 1) / utilsHill.NUM_CHARS))));
+            resultTxt = resultTxt.concat(Character.toString(utilsHill.getChar((int) Math.floor(vector.get(0, 1) % utilsHill.NUM_CHARS))));
+            resultTxt = resultTxt.concat(Character.toString(utilsHill.getChar((int) Math.floor(vector.get(0, 2) / utilsHill.NUM_CHARS))));
+            resultTxt = resultTxt.concat(Character.toString(utilsHill.getChar((int) Math.floor(vector.get(0, 2) % utilsHill.NUM_CHARS))));
         }
-        return txtCifr;
+        return resultTxt;
     }
 }

@@ -120,19 +120,6 @@ public class HillView extends FrameView {
         jTextAreaClave = new javax.swing.JTextArea();
         jButtonCifrar = new javax.swing.JButton();
         jButtonDescifrar = new javax.swing.JButton();
-        jPanel4 = new javax.swing.JPanel();
-        jTextFieldAnalisis00 = new javax.swing.JTextField();
-        jTextFieldAnalisis01 = new javax.swing.JTextField();
-        jTextFieldAnalisis02 = new javax.swing.JTextField();
-        jTextFieldAnalisis10 = new javax.swing.JTextField();
-        jTextFieldAnalisis11 = new javax.swing.JTextField();
-        jTextFieldAnalisis12 = new javax.swing.JTextField();
-        jTextFieldAnalisis20 = new javax.swing.JTextField();
-        jTextFieldAnalisis21 = new javax.swing.JTextField();
-        jTextFieldAnalisis22 = new javax.swing.JTextField();
-        jPanel5 = new javax.swing.JPanel();
-        jScrollPane4 = new javax.swing.JScrollPane();
-        jTextAreaAnalisis = new javax.swing.JTextArea();
         jButtonAnalizar = new javax.swing.JButton();
         menuBar = new javax.swing.JMenuBar();
         javax.swing.JMenu fileMenu = new javax.swing.JMenu();
@@ -164,7 +151,7 @@ public class HillView extends FrameView {
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 624, Short.MAX_VALUE)
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 658, Short.MAX_VALUE)
                 .addContainerGap())
         );
         jPanel1Layout.setVerticalGroup(
@@ -190,7 +177,7 @@ public class HillView extends FrameView {
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel2Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 624, Short.MAX_VALUE)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 658, Short.MAX_VALUE)
                 .addContainerGap())
         );
         jPanel2Layout.setVerticalGroup(
@@ -216,14 +203,14 @@ public class HillView extends FrameView {
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel3Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jScrollPane3, javax.swing.GroupLayout.DEFAULT_SIZE, 192, Short.MAX_VALUE)
+                .addComponent(jScrollPane3, javax.swing.GroupLayout.DEFAULT_SIZE, 265, Short.MAX_VALUE)
                 .addContainerGap())
         );
         jPanel3Layout.setVerticalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel3Layout.createSequentialGroup()
-                .addComponent(jScrollPane3, javax.swing.GroupLayout.DEFAULT_SIZE, 92, Short.MAX_VALUE)
-                .addContainerGap())
+                .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 92, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         jButtonCifrar.setText(resourceMap.getString("jButtonCifrar.text")); // NOI18N
@@ -242,110 +229,6 @@ public class HillView extends FrameView {
             }
         });
 
-        jPanel4.setBorder(javax.swing.BorderFactory.createTitledBorder(resourceMap.getString("jPanel4.border.title"))); // NOI18N
-        jPanel4.setName("jPanel4"); // NOI18N
-
-        jTextFieldAnalisis00.setText(resourceMap.getString("jTextFieldAnalisis00.text")); // NOI18N
-        jTextFieldAnalisis00.setName("jTextFieldAnalisis00"); // NOI18N
-
-        jTextFieldAnalisis01.setText(resourceMap.getString("jTextFieldAnalisis01.text")); // NOI18N
-        jTextFieldAnalisis01.setName("jTextFieldAnalisis01"); // NOI18N
-
-        jTextFieldAnalisis02.setText(resourceMap.getString("jTextFieldAnalisis02.text")); // NOI18N
-        jTextFieldAnalisis02.setName("jTextFieldAnalisis02"); // NOI18N
-
-        jTextFieldAnalisis10.setText(resourceMap.getString("jTextFieldAnalisis10.text")); // NOI18N
-        jTextFieldAnalisis10.setName("jTextFieldAnalisis10"); // NOI18N
-
-        jTextFieldAnalisis11.setText(resourceMap.getString("jTextFieldAnalisis11.text")); // NOI18N
-        jTextFieldAnalisis11.setName("jTextFieldAnalisis11"); // NOI18N
-
-        jTextFieldAnalisis12.setText(resourceMap.getString("jTextFieldAnalisis12.text")); // NOI18N
-        jTextFieldAnalisis12.setName("jTextFieldAnalisis12"); // NOI18N
-
-        jTextFieldAnalisis20.setText(resourceMap.getString("jTextFieldAnalisis20.text")); // NOI18N
-        jTextFieldAnalisis20.setName("jTextFieldAnalisis20"); // NOI18N
-
-        jTextFieldAnalisis21.setText(resourceMap.getString("jTextFieldAnalisis21.text")); // NOI18N
-        jTextFieldAnalisis21.setName("jTextFieldAnalisis21"); // NOI18N
-
-        jTextFieldAnalisis22.setText(resourceMap.getString("jTextFieldAnalisis22.text")); // NOI18N
-        jTextFieldAnalisis22.setName("jTextFieldAnalisis22"); // NOI18N
-
-        javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
-        jPanel4.setLayout(jPanel4Layout);
-        jPanel4Layout.setHorizontalGroup(
-            jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel4Layout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(jTextFieldAnalisis20, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jTextFieldAnalisis10, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 39, Short.MAX_VALUE)
-                    .addComponent(jTextFieldAnalisis00, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jTextFieldAnalisis11, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jTextFieldAnalisis21, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jTextFieldAnalisis01, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jTextFieldAnalisis12, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jTextFieldAnalisis02, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jTextFieldAnalisis22, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-        );
-
-        jPanel4Layout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {jTextFieldAnalisis00, jTextFieldAnalisis01, jTextFieldAnalisis02, jTextFieldAnalisis12});
-
-        jPanel4Layout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {jTextFieldAnalisis11, jTextFieldAnalisis20, jTextFieldAnalisis21});
-
-        jPanel4Layout.setVerticalGroup(
-            jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel4Layout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jTextFieldAnalisis00, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jTextFieldAnalisis01, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jTextFieldAnalisis02, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jTextFieldAnalisis10, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jTextFieldAnalisis11, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jTextFieldAnalisis12, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(7, 7, 7)
-                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jTextFieldAnalisis20, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jTextFieldAnalisis21, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jTextFieldAnalisis22, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(22, Short.MAX_VALUE))
-        );
-
-        jPanel5.setBorder(javax.swing.BorderFactory.createTitledBorder(resourceMap.getString("jPanel5.border.title"))); // NOI18N
-        jPanel5.setName("jPanel5"); // NOI18N
-
-        jScrollPane4.setName("jScrollPane4"); // NOI18N
-
-        jTextAreaAnalisis.setColumns(20);
-        jTextAreaAnalisis.setRows(5);
-        jTextAreaAnalisis.setName("jTextAreaAnalisis"); // NOI18N
-        jScrollPane4.setViewportView(jTextAreaAnalisis);
-
-        javax.swing.GroupLayout jPanel5Layout = new javax.swing.GroupLayout(jPanel5);
-        jPanel5.setLayout(jPanel5Layout);
-        jPanel5Layout.setHorizontalGroup(
-            jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel5Layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jScrollPane4, javax.swing.GroupLayout.DEFAULT_SIZE, 187, Short.MAX_VALUE)
-                .addContainerGap())
-        );
-        jPanel5Layout.setVerticalGroup(
-            jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel5Layout.createSequentialGroup()
-                .addComponent(jScrollPane4, javax.swing.GroupLayout.DEFAULT_SIZE, 92, Short.MAX_VALUE)
-                .addContainerGap())
-        );
-
         jButtonAnalizar.setText(resourceMap.getString("jButtonAnalizar.text")); // NOI18N
         jButtonAnalizar.setName("jButtonAnalizar"); // NOI18N
         jButtonAnalizar.addActionListener(new java.awt.event.ActionListener() {
@@ -361,29 +244,28 @@ public class HillView extends FrameView {
             .addGroup(mainPanelLayout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(mainPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(mainPanelLayout.createSequentialGroup()
-                        .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addContainerGap())
-                    .addGroup(mainPanelLayout.createSequentialGroup()
-                        .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addContainerGap())
-                    .addGroup(mainPanelLayout.createSequentialGroup()
-                        .addGap(179, 179, 179)
-                        .addComponent(jButtonCifrar)
-                        .addGap(88, 88, 88)
-                        .addComponent(jButtonDescifrar)
-                        .addGap(180, 180, 180))
-                    .addGroup(mainPanelLayout.createSequentialGroup()
-                        .addGap(269, 269, 269)
-                        .addComponent(jButtonAnalizar)
-                        .addGap(268, 268, 268))
+                    .addGroup(mainPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addGroup(mainPanelLayout.createSequentialGroup()
+                            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addContainerGap())
+                        .addGroup(mainPanelLayout.createSequentialGroup()
+                            .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addContainerGap()))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, mainPanelLayout.createSequentialGroup()
-                        .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addGap(18, 18, 18)
-                        .addComponent(jPanel5, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addGap(18, 18, 18)
-                        .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addContainerGap())))
+                        .addGroup(mainPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(mainPanelLayout.createSequentialGroup()
+                                .addComponent(jButtonCifrar)
+                                .addGap(88, 88, 88)
+                                .addComponent(jButtonDescifrar))
+                            .addGroup(mainPanelLayout.createSequentialGroup()
+                                .addGap(90, 90, 90)
+                                .addComponent(jButtonAnalizar)
+                                .addGap(88, 88, 88)))
+                        .addGap(219, 219, 219))))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, mainPanelLayout.createSequentialGroup()
+                .addGap(210, 210, 210)
+                .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGap(207, 207, 207))
         );
 
         mainPanelLayout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {jButtonAnalizar, jButtonCifrar, jButtonDescifrar});
@@ -394,10 +276,7 @@ public class HillView extends FrameView {
                 .addContainerGap()
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(mainPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(jPanel5, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jPanel4, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jPanel3, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -447,11 +326,11 @@ public class HillView extends FrameView {
         statusPanel.setLayout(statusPanelLayout);
         statusPanelLayout.setHorizontalGroup(
             statusPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(statusPanelSeparator, javax.swing.GroupLayout.DEFAULT_SIZE, 682, Short.MAX_VALUE)
+            .addComponent(statusPanelSeparator, javax.swing.GroupLayout.DEFAULT_SIZE, 716, Short.MAX_VALUE)
             .addGroup(statusPanelLayout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(statusMessageLabel)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 498, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 532, Short.MAX_VALUE)
                 .addComponent(progressBar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(statusAnimationLabel)
@@ -501,62 +380,23 @@ public class HillView extends FrameView {
     private void jButtonAnalizarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonAnalizarActionPerformed
         try {
             analisisHill analizador = new analisisHill();
-
-            ArrayList<String> cadenasMatrix = new ArrayList<String>();
-            if (jTextFieldAnalisis00.getText().equals("")) {
-                cadenasMatrix.add("__");
-            } else {
-                cadenasMatrix.add(jTextFieldAnalisis00.getText());
-            }
-            if (jTextFieldAnalisis01.getText().equals("")) {
-                cadenasMatrix.add("__");
-            } else {
-                cadenasMatrix.add(jTextFieldAnalisis01.getText());
-            }
-            if (jTextFieldAnalisis02.getText().equals("")) {
-                cadenasMatrix.add("__");
-            } else {
-                cadenasMatrix.add(jTextFieldAnalisis02.getText());
-            }
-            if (jTextFieldAnalisis10.getText().equals("")) {
-                cadenasMatrix.add("__");
-            } else {
-                cadenasMatrix.add(jTextFieldAnalisis10.getText());
-            }
-            if (jTextFieldAnalisis11.getText().equals("")) {
-                cadenasMatrix.add("__");
-            } else {
-                cadenasMatrix.add(jTextFieldAnalisis11.getText());
-            }
-            if (jTextFieldAnalisis12.getText().equals("")) {
-                cadenasMatrix.add("__");
-            } else {
-                cadenasMatrix.add(jTextFieldAnalisis12.getText());
-            }
-            if (jTextFieldAnalisis20.getText().equals("")) {
-                cadenasMatrix.add("__");
-            } else {
-                cadenasMatrix.add(jTextFieldAnalisis20.getText());
-            }
-            if (jTextFieldAnalisis21.getText().equals("")) {
-                cadenasMatrix.add("__");
-            } else {
-                cadenasMatrix.add(jTextFieldAnalisis21.getText());
-            }
-            if (jTextFieldAnalisis22.getText().equals("")) {
-                cadenasMatrix.add("__");
-            } else {
-                cadenasMatrix.add(jTextFieldAnalisis22.getText());
-            }
             String txtCifrado = utilsHill.arreglarCadena(jTextAreaTxtCifrado.getText().trim());
             ArrayList descifrado = analizador.analizar(txtCifrado);
+            ArrayList aux = new ArrayList();
+            //elimina repeticiones con un for-each-one
+            for(Object obj : descifrado){
+                if(!aux.contains(obj)){
+                    aux.add(obj);
+                }
+            }
+            descifrado = aux;
             if(descifrado.isEmpty()){
                 throw new Exception("El texto no pudo ser desencriptado");
             }
             String txtDescifrado = "";
             String matrixDescifrado = "";
             for (int i = 0; i <descifrado.size() ; i+=2) {
-                txtDescifrado=txtDescifrado.concat((String)descifrado.get(i)+"\n");
+                txtDescifrado=txtDescifrado.concat((String)descifrado.get(i)+"\n"+"\n");
                 matrixDescifrado = matrixDescifrado.concat(utilsHill.matrixToString((Matrix)descifrado.get(i+1))+"\n");
             }
             jTextAreaTxtClaro.setText(txtDescifrado);
@@ -573,25 +413,12 @@ public class HillView extends FrameView {
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
-    private javax.swing.JPanel jPanel4;
-    private javax.swing.JPanel jPanel5;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane3;
-    private javax.swing.JScrollPane jScrollPane4;
-    private javax.swing.JTextArea jTextAreaAnalisis;
     private javax.swing.JTextArea jTextAreaClave;
     private javax.swing.JTextArea jTextAreaTxtCifrado;
     private javax.swing.JTextArea jTextAreaTxtClaro;
-    private javax.swing.JTextField jTextFieldAnalisis00;
-    private javax.swing.JTextField jTextFieldAnalisis01;
-    private javax.swing.JTextField jTextFieldAnalisis02;
-    private javax.swing.JTextField jTextFieldAnalisis10;
-    private javax.swing.JTextField jTextFieldAnalisis11;
-    private javax.swing.JTextField jTextFieldAnalisis12;
-    private javax.swing.JTextField jTextFieldAnalisis20;
-    private javax.swing.JTextField jTextFieldAnalisis21;
-    private javax.swing.JTextField jTextFieldAnalisis22;
     private javax.swing.JPanel mainPanel;
     private javax.swing.JMenuBar menuBar;
     private javax.swing.JProgressBar progressBar;
@@ -608,6 +435,7 @@ public class HillView extends FrameView {
 
     private void mostrarMensaje(String message) {
         System.out.println(message);
+        //Muestra el cuadro de error en la interfaz gráfica de manera adecuada
         JOptionPane.showMessageDialog(mainPanel, message, "Error", JOptionPane.ERROR_MESSAGE);
     }
 }

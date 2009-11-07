@@ -7,7 +7,6 @@ package hill.utils;
 import Jama.Matrix;
 import hill.excepciones.TextoException;
 import java.math.BigInteger;
-import java.util.LinkedList;
 import org.omg.CORBA.DATA_CONVERSION;
 
 /**
@@ -57,6 +56,7 @@ public class utilsHill {
      * @return
      */
     public static double determinante(Matrix matrix) {
+        //devuelve el determinante de la matriz módulo 784
         return utilsHill.modulo((int) Math.round(matrix.det()), utilsHill.NUM_2CHARS);
     }
 
@@ -101,7 +101,8 @@ public class utilsHill {
     }
 
     /**
-     * Función que calcula el módulo entre x, y (x%y)
+     * Función que calcula el módulo entre x, y (x%y) diferenciando entre
+     * positivos y negativos
      * @param x
      * @param y
      * @return
@@ -110,35 +111,8 @@ public class utilsHill {
         if (x >= 0) {
             return x % y;
         }
+        //Math.abs calcula el valor absoluto
         return y - (Math.abs(x) % y);
-    }
-
-    /**
-     * Calcula los digramas repetidos separados por una distancia múltiplo de 6
-     * en una cadena de texto ingresada. También calcula los índices de la
-     * primera ocurrencia del digrama repetido
-     * @param cadena
-     * @return Retorna una lista encadenada que contiene en sus posiciones pares
-     * un string que representa el digrama, en en la respectiva posición impar
-     * siguiente, se encuentra el índice asociado a su primera ocurrencia
-     */
-    public static LinkedList digramasRepetidos(String cadena) {
-        LinkedList digramsIndexes = new LinkedList<String>();
-        String aux = "";
-        int auxIndex;
-        for (int i = 0; i < cadena.length() - 2; i += 2) {
-            aux = cadena.substring(i, i + 2);
-            auxIndex = cadena.indexOf(aux, i + 2);
-            while (auxIndex != -1) {
-                if ((auxIndex - i) % 6 == 0 && !digramsIndexes.contains(i)) {
-                    digramsIndexes.add(aux);
-                    digramsIndexes.add(i);
-                    digramsIndexes.add((i % 6) / 2);
-                }
-                auxIndex = cadena.indexOf(aux, auxIndex + 2);
-            }
-        }
-        return digramsIndexes;
     }
 
     /**
@@ -197,14 +171,15 @@ public class utilsHill {
         }
 
         double[][] array = matrix.getArrayCopy();
-        org.codezealot.matrix.Matrix mat1 = new org.codezealot.matrix.Matrix(matrix.getRowDimension(), matrix.getColumnDimension(), array);
-//        org.codezealot.matrix.Matrix aux = mat1.getAdjugate();
+        //crea una matriz de la otra librería únicamente para calcular la adjunta
+        org.codezealot.matrix.Matrix matAux = new org.codezealot.matrix.Matrix(matrix.getRowDimension(), matrix.getColumnDimension(), array);
 
-        mat1 = mat1.getAdjugate();
+        //función que Calcula la adjunta de una vez transpuesta
+        matAux = matAux.getAdjugate();
 
         for (int i = 0; i < matrix.getRowDimension(); i++) {
             for (int j = 0; j < matrix.getColumnDimension(); j++) {
-                array[i][j] = utilsHill.modulo((int) mat1.get(i, j), utilsHill.NUM_2CHARS);
+                array[i][j] = utilsHill.modulo((int) matAux.get(i, j), utilsHill.NUM_2CHARS);
             }
         }
 
@@ -215,19 +190,20 @@ public class utilsHill {
     }
 
     /**
-     * Calcula el MODULAR MULTIPLICATIVE INVERSE de dos números a, m
+     * Calcula el MODULAR MULTIPLICATIVE INVERSE de dos números a, m.
+     * Aplica el algoritmo extendido de uclides
      * @param a es el número al que se le quiere hallar el inverso
      * @param m es el número que se usará como módulo
      * @return
      * @throws Exception
      */
     public static int MMI(int a, int m) throws DATA_CONVERSION {
-
         if (!utilsHill.primosRelativos(a, m)) {
             throw new DATA_CONVERSION("los números deben ser primos relativos para calcular el inverso");
         }
         BigInteger num = new BigInteger(Integer.toString(a));
         BigInteger numM = new BigInteger(Integer.toString(m));
+        //modInverse es un método de la clase BigInteger
         return num.modInverse(numM).intValue();
     }
 
@@ -238,27 +214,15 @@ public class utilsHill {
      */
     public static double[][] moduloMatriz(double[][] array) {
 
+        //array.length devuelve el número de filas de la matriz
         for (int i = 0; i < array.length; i++) {
+            //array[0].length devuelve el número de columnas de la matriz
             for (int j = 0; j < array[0].length; j++) {
                 array[i][j] = utilsHill.modulo((int) array[i][j], utilsHill.NUM_2CHARS);
 
             }
         }
         return array;
-    }
-
-    /**
-     * Calcula el módulo para cada elemento de la matriz
-     * @param array
-     * @return
-     */
-    public static Matrix moduloMatriz(Matrix matrix) {
-        for (int i = 0; i < matrix.getRowDimension(); i++) {
-            for (int j = 0; j < matrix.getColumnDimension(); j++) {
-                matrix.set(i, j, matrix.get(i, j) % utilsHill.NUM_2CHARS);
-            }
-        }
-        return matrix;
     }
 
     /**
@@ -276,6 +240,10 @@ public class utilsHill {
         }
     }
 
+    /**
+     * Imprime la matriz ingresada en consola
+     * @param matrix
+     */
     public static void printMatrix(Matrix matrix) {
         String print = "";
         for (int i = 0; i < matrix.getRowDimension(); i++) {
@@ -287,11 +255,16 @@ public class utilsHill {
         System.out.println(print);
     }
 
+    /**
+     * Retorna una matriz en String de la matriz ingresada
+     * @param matrix
+     * @return
+     */
     public static String matrixToString(Matrix matrix) {
         String print = "";
         for (int i = 0; i < matrix.getRowDimension(); i++) {
             for (int j = 0; j < matrix.getColumnDimension(); j++) {
-                print = print.concat(Double.toString(matrix.get(i, j)) + "\t");
+                print = print.concat(Integer.toString((int)matrix.get(i, j)) + "\t");
             }
             print = print.concat("\n");
         }

@@ -10,9 +10,7 @@ import hill.excepciones.TextoException;
 import hill.utils.PermutationGenerator;
 import hill.utils.utilsHill;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.HashSet;
-import java.util.LinkedList;
 
 /**
  *
@@ -20,66 +18,33 @@ import java.util.LinkedList;
  */
 public class analisisHill {
 
-    private LinkedList<String> digramas;
-    private ArrayList<String> digramasCompletos;
-    private String letrasComienzoInvalido = "xyzkw";
-    private String repetidasValidas = "ceolr";
-    private int longitudMaxima = 14;
-    private String[] palabrasClave = {"ante", "bajo", "cabe", "con", "contra", "de", "desde", "durante",
-        "en", "entre", "hacia", "hasta", "mediante", "para", "por", "segun", "sin", "sobre", "tras", "via", "el", "los",
-        "la", "las", "lo"};
-    private String letrasCriticasDespues = "qzhgyjxpftmvdr";
-    private String[] xValida = {"u", "aeitmnou ", "aeiou", "aeiolru", "aeiou", "aeiou", "acehitou",
-        "aceilortu", "aeiloru", "aeilmnoru", "abeihnopu", "aeiou", "aeighjmnyoru ", "abcdegijmnoprstuvz "};
-    private String letrasCriticasAntes = " yxgzhlpftrjdc";
-    private String[] validaX = {"adeilnorsuz", "aedou ", "aeiou ", "adeioulnrs ", "aireuln ", "aeiocudmnx ",
-        "abcefglnrsioptu ", "aeimorsu ", "aeionlrsu ", "aceilnfoprsuxz ", "abcdefgilnoprstu ", "abdeilnoru ",
-        "abeilnorsu ", "aceilnoprsux "};
     private HashSet<String> digsCompletos;
 
     public analisisHill() {
         inicializarDigramas();
     }
 
-    public LinkedList<String> getDigramas() {
-        return digramas;
-    }
-
-    public void setDigramas(LinkedList<String> digramas) {
-        this.digramas = digramas;
-    }
-
-    public ArrayList<String> getDigramasCompletos() {
-        return digramasCompletos;
-    }
-
-    public void setDigramasCompletos(ArrayList<String> digramasCompletos) {
-        this.digramasCompletos = digramasCompletos;
-    }
 
     public ArrayList analizar(String txtCifrado) throws Exception {
         ArrayList result = new ArrayList();
-        txtCifrado = utilsHill.adjustString(txtCifrado, 6);
         ArrayList<Matrix> posiblesColumnas = analisisColumnas(txtCifrado);
-        if(posiblesColumnas.size()<3){
-            throw new Exception("El texto cifrado parece estar mal formado");
-        }
         PermutationGenerator permGenerator = new PermutationGenerator(posiblesColumnas.size());
         int[] aux = new int[posiblesColumnas.size()];
         Matrix posibleClave = new Matrix(3, 3);
-        String auxTxt;
+        String auxTxt="";
         while (permGenerator.hasMore()) {
             aux = truncateArray(permGenerator.getNext(), 3);
             posibleClave = setPermutation(aux, posiblesColumnas);
             try {
                 auxTxt = CSHill.descifrarInv(txtCifrado, posibleClave);
-                if (cadenaValida(auxTxt)) {
+                if (validByBigram(auxTxt)) {
                     result.add(auxTxt);
                     result.add(utilsHill.getInversa(posibleClave));
                 }
             } catch (Exception ex) {
             }
         }
+
         return result;
     }
 
@@ -89,82 +54,12 @@ public class analisisHill {
      * de mayor a menor ocurrencia
      */
     public void inicializarDigramas() {
-        digramas = new LinkedList<String>();
-        digramasCompletos = new ArrayList<String>();
         digsCompletos = new HashSet<String>();
-        String digrAux = java.util.ResourceBundle.getBundle("hill.resources.DigramsFreqs").getString("digramas").toLowerCase();
-        for (int i = 0; i < digrAux.length(); i += 2) {
-            digramas.add(digrAux.substring(i, i + 2));
+        //DEFINICIÓN DE LOS DIGRAMAS POSIBLES DEL ESPAÑOL
+        String digrEsp = "endeeresuelao a s e n r  c p a s m e d traosnttearqueltadocored l i asonantolostunoradiesecial h v r u n i l b onaparonomeinz  f q g j zeaebecedeeefegeheiejekelemeñeoepeqeteuevewexeyezabacaeafagahaiajakamañaoapaqatauavawaxayazoaobocodoeofogohoiojolomoñopoqotouovoxoyozsasbscsdsfsgsislsmsnsospsqsusvsyncndnenfngnhninjnlnmnqnrnsnunviaibicidifigihijilimiñioipiqirisitiuivixiyizrbrcrdrgrirjrmrnrprrrsrtrurvrzlblcldlelflgliljlllmlplqlrlsltlulzdadidgdhdjdmdndydrduu uaubucudufuguhuiujulumuñuoupuqurusutuvuycacccechclcrctcutctitltmtntrtum mambmimhmnmompmup pcpepiplpoprptpubabebiblbobrbsbuhahehihohug gagegigoglgngrguvavevivovuy yayeyiyoyujajejijojufafefiflfofrfuzazeziztzmznzozuñañeñiñoñux xaxcxexhxixpxtxoxu ñ w x y";
+        for (int i = 0; i < digrEsp.length(); i += 2) {
+            digsCompletos.add(digrEsp.substring(i, i + 2));
         }
-        digrAux = java.util.ResourceBundle.getBundle("hill.resources.DigramsFreqs").getString("digramasEspCompletos").toLowerCase();
-        for (int i = 0; i < digrAux.length(); i += 2) {
-            digramasCompletos.add(digrAux.substring(i, i + 2));
-            digsCompletos.add(digrAux.substring(i, i + 2));
-        }
-    }
-
-    private boolean cadenaValida(String cadena) {
-        String[] divisionesCadena = cadena.split(" ");
-        if (!contienePalabras(divisionesCadena)) {
-            return false;
-        }
-        return true;
-    }
-
-    public boolean contienePalabras(String[] divisionesCadena) {
-        LinkedList<String> auxDivisiones = new LinkedList<String>();
-        LinkedList<String> auxPalabras = new LinkedList<String>();
-        for (int i = 0; i < divisionesCadena.length; i++) {
-            String cadena = divisionesCadena[i];
-            auxDivisiones.add(cadena);
-        }
-        for (int i = 0; i < palabrasClave.length; i++) {
-            String cadena = palabrasClave[i];
-            auxPalabras.add(cadena);
-        }
-        for (int i = 0; i < auxPalabras.size(); i++) {
-            if (auxDivisiones.contains(auxPalabras.get(i))) {
-                return true;
-            }
-        }
-        return false;
-    }
-
-    public boolean combinacionesInvalidas(String cadena) {
-        int posicionLetraCritica;
-        //se verifica en la lista de letrasCriticasDespues
-        for (int i = 0; i < letrasCriticasDespues.length(); i++) {
-            //si la cadena contiene una letra crítica
-            if (cadena.contains(letrasCriticasDespues.substring(i, i + 1))) {
-                posicionLetraCritica = cadena.indexOf(letrasCriticasDespues.substring(i, i + 1));
-                //si la letra crítica no está al final
-
-                if (posicionLetraCritica != cadena.length() - 1) {
-                    //verifica si la letra siguiente a la crítica es valida (busca en el arreglo xValida)
-                    if (!xValida[i].contains(cadena.substring(posicionLetraCritica + 1, posicionLetraCritica + 2))) {
-
-                        return true;
-                    }
-                }
-            }
-        }
-
-        //se verifica en la lista de letrasCriticasAntes
-        for (int i = 0; i < letrasCriticasAntes.length(); i++) {
-            //si la cadena contiene una letra crítica
-            if (cadena.contains(letrasCriticasAntes.substring(i, i + 1))) {
-                posicionLetraCritica = cadena.indexOf(letrasCriticasAntes.substring(i, i + 1));
-                if (posicionLetraCritica > 0) {
-                    //verifica si la letra anterior a la crítica es valida (busca en el arreglo validaX)
-                    if (!validaX[i].contains(cadena.substring(posicionLetraCritica - 1, posicionLetraCritica))) {
-
-                        return true;
-                    }
-
-                }
-            }
-        }
-        return false;
     }
 
     public ArrayList<Matrix> analisisColumnas(String txtCifrado) throws TextoException {
@@ -172,6 +67,10 @@ public class analisisHill {
         Matrix auxVector = new Matrix(3, 1);
         ArrayList<Matrix> posibleCol = new ArrayList<Matrix>();
         for (int i = 0; i < utilsHill.NUM_2CHARS; i++) {
+//            if(i==0){i=359;}
+//            if(i==360){i=611;}
+//            if(i==612){i=738;}
+//            if(i==739){break;}
             long starti = System.currentTimeMillis();
             for (int j = 0; j < utilsHill.NUM_2CHARS; j++) {
                 for (int k = 0; k < utilsHill.NUM_2CHARS; k++) {
@@ -212,6 +111,12 @@ public class analisisHill {
         return true;
     }
 
+    /**
+     * Trunca el arreglo para poder usarlo con las matrices
+     * @param array
+     * @param numTrunc
+     * @return
+     */
     public int[] truncateArray(int[] array, int numTrunc) {
         int[] truncado = new int[numTrunc];
         for (int i = 0; i < numTrunc; i++) {
@@ -220,6 +125,13 @@ public class analisisHill {
         return truncado;
     }
 
+    /**
+     * A partir del arreglo de la permutación genera una matriz que es posible
+     * clave
+     * @param perm
+     * @param posiblesColumnas
+     * @return
+     */
     public Matrix setPermutation(int[] perm, ArrayList<Matrix> posiblesColumnas) {
 
         Matrix auxMat = new Matrix(3, 3);
@@ -229,5 +141,19 @@ public class analisisHill {
             auxMat.set(2, i, posiblesColumnas.get(perm[i]).get(2, 0));
         }
         return auxMat;
+    }
+
+    private boolean validByBigram(String cadena) {
+        cadena=cadena.substring(0, cadena.length()-6);
+        String aux="";
+        for (int i = 0; i < cadena.length()-2; i++) {
+            aux=cadena.substring(i, i+2);
+//            System.out.println(aux);
+            if(!digsCompletos.contains(aux)){
+//                System.out.println("SALIÓ");
+                return false;
+            }
+        }
+        return true;
     }
 }

@@ -6,7 +6,6 @@
 package hill.utils;
 
 import Jama.Matrix;
-import java.util.LinkedList;
 import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;
@@ -127,28 +126,6 @@ public class utilsHillTest {
     }
 
     /**
-     * Test of digramasRepetidos method, of class utilsHill.
-     */
-    @Test
-    public void testDigramasRepetidos() {
-        System.out.println("digramasRepetidos");
-//        String cadena = "zs gpznpppyjvdxyopñvoeywbtuxvietaczkqhoipdbenbyrqbhtwqmnzkcztacsmbzzmvndiprjjnmpbzargbqqlbñnyxqzsqzbñgjtqowzdndxvpdtzeenndtqqjñfxbzcbrmn naiq oeovpujjgjdwpxkpeoppvt iymiykomawtwcsclymfo bfhoxzsffdknjjaafidñvqrynxfookcebbskd xoc genpfbiwvpuyxi jjckpynigbdm ydlqzbzgcj gldvy xñxszxcm urfcphdamijprbobjclo dasmjzvhh";
-        String cadena = "twqmsctgubopydoxbzwn bitdxvammcrrkrjdvjrdknadpuylwmxpñlwbqjeqgnsfprwfpubaeñsawsjwyht wzzzpir stpzsmtwuhisaqojhvjyvzsioycxljzzivññrnn vvmvlovhupogbyuki wzzzpir stpjdlxtptkvzaqpbkqrñojvuneispbboihpbcrmfmjatihprgpovegiyhysfxphadcmlstñbxcsqzndaugññtupyeygqoypbemmukpvrsbwptancytdev kptiimbqckyuxaxhthf dsxcutlaeszpxrhñ oyuknhyzpdxvammyzvnnl";
-//        String cadena = "WUMEWIRBYTGAICOWBTAAZHPJZSJIRSLTCLIVWYFSOQTEBYSBVSEUÑTUHTRGOCYWMXEVHOWOZHSBACYZQQDHYOÑCFUBZEGSMAIÑWMJOGHHDIÑFRJSOAWRDTNYQNÑGIVFFDARIXULVBKOCVWMTAFFXVJAZTXEJEMSOFMZÑCHQPTYJLPUHODMHJSÑZHZPFKIEWMVUSEWUGGNKLFPEL_MLRPEJHYMDVWZRWKHSWLZQQDHYTNKF_AÑFQX_WVOWTAVÑAXSMXMZCHYTYXL_HNLKWLUMWPGEWED_ÑIXNUDG_PNQNJCONPEL_MLP_XIIQONPOSULÑVFRBFAD_BIEJVOQJ";
-//        String cadena = "FOUEKNÑ_LREMJJDSAATXWPÑXBDLSMZLFGÑYQVMUKMIEHÑ_TZICZWITIIBXSXFCJWPPRTDHDRECZ_NQKÑZLKSLJWAYYFÑTHKFEUUÑMNSXFKOFÑILRFTBDKSCZLFGÑYQBQPJNYDGRRSQWDDXCBMEPHAPOVZVAVBEXGBDÑIPGOAFMKGFSNOTCBTKTXI_SC_XCOAVAJLXXJXNZNCHRYXRKÑURRNDHVRXAPRKEISFPBÑYNVO__IZDWIÑUMJPUCYJXPUPCJTJIZTOYHBUÑFYAHROJ_YFXH_TDHSDZYJPNRXZBWJIOGBVVUL_OVRFTX_AOXSQJWQFJYHBÑFKLNSWR";
-//        String cadena = "dwñzrowkscxwhkkvphlnnxusutvoi_mcpzemuvkhlrwjs_jzqgfuehopj_bgñwjfxxy_sypwuwvtdmodxjzwgfavwdjqmsgil_zñvhbgcnilegñvñhaajhcmya_s_ijñxbpaxohañryjvoañnjgñ_tkmbdy_yoeqythlwpdiiqotqwihbitexqozfwukekmlrqhkñsyyyvñduqpgkskqmhssehjxgcdawfdfyjykbwdufruemñwejmmxnbalxñvtbtkwfilz_yymxevlubmvpue_hmchnfgercwqfhpqtzkfwcivizqkozfwpdapotqknov_pqrcc_xkuhdcmkeinñañmvwpjtyobptqyhns";
-        cadena=utilsHill.arreglarCadena(cadena);
-        LinkedList expResult = null;
-        LinkedList result = utilsHill.digramasRepetidos(cadena);
-        for(Object aux:result){
-            System.out.println("result:"+aux);
-        }
-        String aux = "ENDEERESUELARAOSNTTEARQUELTADOCOREASANANTOLOSTUNORADIESECIALNAPARONOMEINO A S E N R D L I Z  C P A S M E D T H V R U N I L B O F Q G J Z";
-        System.out.println("CANTIDAD DIGRAMAS="+aux.length()/2);
-        assertEquals(expResult, result);
-    }
-
-    /**
      * Test of arreglarCadena method, of class utilsHill.
      */
     @Test
@@ -182,7 +159,9 @@ public class utilsHillTest {
     @Test
     public void testGetInversa() {
         System.out.println("getInversa");
-        double[][] mat = new double[][]{{476,555,678},{250,345,455},{551,145,725}};
+        double[][] mat = new double[][] {{120,111,721},{770,110,121},{115,417,221}};
+
+//        double[][] mat = new double[][]{{476,555,678},{250,345,455},{551,145,725}};
 //        double[][] mat = new double[][]{{478,592,327},{295,712,592},{674,417,556}};
 //        double[][] mat = new double[][]{{130,150,121},{245,580,756},{567,445,624}};
 //        double[][] mat = new double[][]{{553,721,317},{454,315,699},{640,755,418}};
@@ -218,20 +197,6 @@ public class utilsHillTest {
         double[][] array = null;
         double[][] expResult = null;
         double[][] result = utilsHill.moduloMatriz(array);
-        assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
-    }
-
-    /**
-     * Test of moduloMatriz method, of class utilsHill.
-     */
-    @Test
-    public void testModuloMatriz_Matrix() {
-        System.out.println("moduloMatriz");
-        Matrix matrix = new Matrix(3,3);
-        Matrix expResult = null;
-        Matrix result = utilsHill.moduloMatriz(matrix);
         assertEquals(expResult, result);
         // TODO review the generated test code and remove the default call to fail.
         fail("The test case is a prototype.");

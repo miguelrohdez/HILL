@@ -56,65 +56,6 @@ public class analisisHillTest {
     }
 
     /**
-     * Test of analisisSupuesto method, of class analisisHill.
-     */
-    @Test
-    public void testAnalisisSupuesto() throws Exception {
-        System.out.println("analisisSupuesto");
-        analisisHill analisis = new analisisHill();
-        String txtCifrado = "";
-//        analisis.analisisSupuesto(txtCifrado, "","","");
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
-    }
-
-    /**
-     * Test of columnasInvariantes method, of class analisisHill.
-     */
-    @Test
-    public void testColumnasInvariantes() {
-        System.out.println("columnasInvariantes");
-        analisisHill analisis = new analisisHill();
-        LinkedList<Integer> indices = new LinkedList<Integer>();
-        indices.add(2);
-        indices.add(98);
-        indices.add(156);
-        indices.add(244);
-        LinkedList<Integer> expResult = new LinkedList<Integer>();
-        expResult.add(0);
-        expResult.add(1);
-        expResult.add(2);
-        LinkedList<Integer> result = analisis.columnasInvariantes(indices);
-        assertEquals(expResult, result);
-    }
-
-    /**
-     * Test of eliminarRepetidos method, of class analisisHill.
-     */
-    @Test
-    public void testEliminarRepetidos() {
-        System.out.println("eliminarRepetidos");
-        analisisHill analisis = new analisisHill();
-        LinkedList<Integer> indices = new LinkedList<Integer>();
-        indices.add(2);
-        indices.add(4);
-        indices.add(0);
-        indices.add(2);
-        indices.add(4);
-        indices.add(6);
-        indices.add(0);
-        indices.add(6);
-        indices.add(6);
-        LinkedList<Integer> expResult = new LinkedList<Integer>();
-        expResult.add(2);
-        expResult.add(4);
-        expResult.add(0);
-        expResult.add(6);
-        LinkedList<Integer> result = analisis.eliminarRepetidos(indices);
-        assertEquals(expResult, result);
-    }
-
-    /**
      * Test of inicializarDigramas method, of class analisisHill.
      */
     @Test
@@ -124,30 +65,6 @@ public class analisisHillTest {
         analisis.inicializarDigramas();
         System.out.println(analisis.getDigramas());
         System.out.println(analisis.getDigramasCompletos());
-    }
-
-    /**
-     * Test of generateListas method, of class analisisHill.
-     */
-    @Test
-    public void testGenerateListas() {
-        System.out.println("generateListas");
-        LinkedList<String> digramasRepetidos = new LinkedList<String>();
-        digramasRepetidos.add(" g");
-        digramasRepetidos.add("zb");
-        digramasRepetidos.add("kp");
-        digramasRepetidos.add("jc");
-        LinkedList<Integer> indices = new LinkedList<Integer>();
-        indices.add(2);
-        indices.add(98);
-        indices.add(156);
-        indices.add(244);
-        analisisHill instance = new analisisHill();
-        LinkedList expResult = null;
-        LinkedList result = instance.generateListas(digramasRepetidos, indices);
-        String hola = "endeeresuelao a s e n r  c p a s m e d traosnttearqueltadocored l i asonantolostunoradiesecial h v r u n i l b onaparonomeinz  f q g j zebecedeeefegeheiejekelemeoepeqeteuevewexeyezabacafagahaiajakamañaoapaqatauavawaxayazoaobocodoeofogohoiojolomopoqotouovoxoyozsasbscsdsfsgsislsmsnsospsqsusvsyncndnenfngnhninjnlnmnqnrnsnunviaibicidifigihijilimioipiqirisitiuivixiyizrbrcrdrgrirjrmrnrprrrsrtrurvrzlblcldlelflgliljlllmlplqlrlsltlulzdadidgdhdjdmdndydrduu uaubucudufuguhuiujulumuoupuqurusutuvuycacccechclcrctcutitltmtntrtum mambmimhmnmompmup pcpepiplpoprptpubabebiblbobrbsbuhahehihohug gagegigoglgrguvavevivovuy yayeyiyoyujajejijojufafefiflfofrfuzazeziztzmznzozuñañeñiñoñux xaxcxexhxixtxoxu ñ w x y";
-        System.out.println(hola.length()+", "+hola.length()/2);
-        assertEquals(expResult, result);
     }
 
     /**
@@ -205,96 +122,6 @@ public class analisisHillTest {
     }
 
     /**
-     * Test of comienzoInvalido method, of class analisisHill.
-     */
-    @Test
-    public void testComienzoInvalido() {
-        System.out.println("comienzoInvalido");
-        String cadena = "";
-        analisisHill instance = new analisisHill();
-        boolean expResult = false;
-        boolean result = instance.comienzoInvalido(cadena);
-        assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
-    }
-
-    /**
-     * Test of longitudInvalida method, of class analisisHill.
-     */
-    @Test
-    public void testLongitudInvalida() {
-        System.out.println("longitudInvalida");
-        String cadena = "";
-        analisisHill instance = new analisisHill();
-        boolean expResult = false;
-        boolean result = instance.longitudInvalida(cadena);
-        assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
-    }
-
-    /**
-     * Test of repetidasMalas method, of class analisisHill.
-     */
-    @Test
-    public void testRepetidasMalas() {
-        System.out.println("repetidasMalas");
-        String cadena = "";
-        analisisHill instance = new analisisHill();
-        boolean expResult = false;
-        boolean result = instance.repetidasMalas(cadena);
-        assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
-    }
-
-    /**
-     * Test of contienePalabras method, of class analisisHill.
-     */
-    @Test
-    public void testContienePalabras() {
-        System.out.println("contienePalabras");
-        String[] divisionesCadena = null;
-        analisisHill instance = new analisisHill();
-        boolean expResult = false;
-        boolean result = instance.contienePalabras(divisionesCadena);
-        assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
-    }
-
-    /**
-     * Test of combinacionesInvalidas method, of class analisisHill.
-     */
-    @Test
-    public void testCombinacionesInvalidas() {
-        System.out.println("combinacionesInvalidas");
-        String cadena = "";
-        analisisHill instance = new analisisHill();
-        boolean expResult = false;
-        boolean result = instance.combinacionesInvalidas(cadena);
-        assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
-    }
-
-
-    /**
-     * Test of analisisColumnas method, of class analisisHill.
-     */
-    @Test
-    public void testAnalisisColumnas() throws Exception {
-        System.out.println("analisisColumnas");
-        String txtCifrado = "foueknñ lremjjdsaatxwpñxbdlsmzlfgñyqvmukmiehñ tziczwitiibxsxfcjwpprtdhdrecz nqkñzlksljwayyfñthkfeuuñmnsxfkofñilrftbdksczlfgñyqbqpjnydgrrsqwdddxcbmephapovzvavbexgbdñipgoafmkgfsnotcbtktxi sc xcoavajlxxjxnznchryxrkñurrndhvrxaprkeisfpbñynvo  izdwiñumjpucyjxpupcjtjiztoyhbuñfyahroj yfxh tdhsdzyjpnrxzbwjiogbvvul ovrftx aoxsqjwqfjyhbuñfklnswr";
-        txtCifrado = utilsHill.arreglarCadena(txtCifrado);
-        analisisHill instance = new analisisHill();
-        Matrix expResult = null;
-        //ArrayList result = instance.analisisColumnas(txtCifrado);
-        //assertEquals(expResult, result);
-    }
-
-    /**
      * Test of descifrarParcial method, of class analisisHill.
      */
     @Test
@@ -319,57 +146,6 @@ public class analisisHillTest {
         System.out.println(result);
         assertEquals(expResult, result);
         // TODO review the generated test code and remove the default call to fail.
-    }
-
-    /**
-     * Test of generatePerms method, of class analisisHill.
-     */
-    @Test
-    public void testGeneratePerms() {
-        System.out.println("generatePerms");
-        ArrayList<Matrix> posiblesColumnas = new ArrayList<Matrix>();
-        posiblesColumnas.add(new Matrix(1, 1));
-        posiblesColumnas.add(new Matrix(1, 1));
-        posiblesColumnas.add(new Matrix(1, 1));
-        analisisHill instance = new analisisHill();
-        ArrayList expResult = null;
-        ArrayList<int[]> result = instance.generatePerms(posiblesColumnas);
-        for (int i = 0; i < result.size(); i++) {
-            System.out.println(result.get(i)[0]+","+result.get(i)[1]+","+result.get(i)[2]);
-        }
-        assertEquals(expResult, result);
-    }
-
-    /**
-     * Test of truncateArrays method, of class analisisHill.
-     */
-    @Test
-    public void testTruncateArrays() {
-        System.out.println("truncateArrays");
-        ArrayList<int[]> arrays = null;
-        int numTrunc = 0;
-        analisisHill instance = new analisisHill();
-        ArrayList expResult = null;
-        ArrayList result = instance.truncateArrays(arrays, numTrunc);
-        assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
-    }
-
-    /**
-     * Test of generateMatrix method, of class analisisHill.
-     */
-    @Test
-    public void testGenerateMatrix() {
-        System.out.println("generateMatrix");
-        ArrayList<int[]> perms = null;
-        ArrayList<Matrix> posiblesColumnas = null;
-        analisisHill instance = new analisisHill();
-        ArrayList expResult = null;
-//        ArrayList result = instance.generateMatrix(perms, posiblesColumnas);
-//        assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
     }
 
     /**

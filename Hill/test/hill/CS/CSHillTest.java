@@ -273,19 +273,4 @@ public class CSHillTest {
         System.out.println(expResult);
         assertEquals(expResult, result);
     }
-
-    /**
-     * Test of descifrar method, of class CSHill.
-     */
-    @Test
-    public void testDescifrar_String_doubleArrArr() throws Exception {
-        System.out.println("descifrar");
-        String txtCifrado = "zs gpznpppyjvdxyopñvoeywbtuxvietaczkqhoipdbenbyrqbhtwqmnzkcztacsmbzzmvndiprjjnmpbzargbqqlbñnyxqzsqzbñgjtqowzdndxvpdtzeenndtqqjñfxbzcbrmn naiq oeovpujjgjdwpxkpeoppvt iymiykomawtwcsclymfo bfhoxzsffdknjjaafidñvqrynxfookcebbskd xoc genpfbiwvpuyxi jjckpynigbdm ydlqzbzgcj gldvy xñxszxcm urfcphdamijprbobjclo dasmjzvhh";
-        double[][] clave = new double[][]{{591.0, 671.0, 84.0}, {204.0, 214.0, 97.0}, {214.0, 623.0, 679.0}};
-        CSHill instance = new CSHill();
-        String expResult = "Un Switch es un equipo que tiene como principal funcion interconectar y transmitir paquetes entre dos segmentos de red de acuerdo a las direcciones MAC Un Switch permite que la comunicacion en una red sea mas eficiente al conmutar los datos transmitidos hacia los equipos conectados a los puertos de este equipo ";
-        expResult = expResult.toLowerCase();
-        String result = instance.descifrar(txtCifrado, clave);
-        assertEquals(expResult, result);
-    }
 }
