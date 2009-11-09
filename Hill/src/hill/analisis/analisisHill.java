@@ -24,7 +24,6 @@ public class analisisHill {
         inicializarDigramas();
     }
 
-
     public ArrayList analizar(String txtCifrado) throws Exception {
         ArrayList result = new ArrayList();
         //se usa el método estático para inicializar la tabla indexada para su posterior uso
@@ -33,17 +32,22 @@ public class analisisHill {
         PermutationGenerator permGenerator = new PermutationGenerator(posiblesColumnas.size());
         int[] aux = new int[posiblesColumnas.size()];
         Matrix posibleClave = new Matrix(3, 3);
-        String auxTxt="";
+        String auxTxt = "";
+        //Arreglo que almacena las permutaciones que se van aplicando para evitar repeticiones
+        HashSet<String> posiblesPerm = new HashSet<String>();
         while (permGenerator.hasMore()) {
             aux = truncateArray(permGenerator.getNext(), 3);
-            posibleClave = setPermutation(aux, posiblesColumnas);
-            try {
-                auxTxt = CSHill.descifrarInv(txtCifrado, posibleClave);
-                if (validByBigram(auxTxt)) {
-                    result.add(auxTxt);
-                    result.add(utilsHill.getInversa(posibleClave));
+            if (!posiblesPerm.contains(utilsHill.arrayToString(aux))) {
+                posiblesPerm.add(utilsHill.arrayToString(aux));
+                posibleClave = setPermutation(aux, posiblesColumnas);
+                try {
+                    auxTxt = CSHill.descifrarInv(txtCifrado, posibleClave);
+                    if (validByBigram(auxTxt)) {
+                        result.add(auxTxt);
+                        result.add(utilsHill.getInversa(posibleClave));
+                    }
+                } catch (Exception ex) {
                 }
-            } catch (Exception ex) {
             }
         }
 
@@ -69,11 +73,6 @@ public class analisisHill {
         Matrix auxVector = new Matrix(3, 1);
         ArrayList<Matrix> posibleCol = new ArrayList<Matrix>();
         for (int i = 0; i < utilsHill.NUM_2CHARS; i++) {
-//            if(i==0){i=252;}
-//            if(i==253){i=265;}
-//            if(i==266){i=403;}
-//            if(i==404){i=694;}
-//            if(i==695){break;}
             long starti = System.currentTimeMillis();
             for (int j = 0; j < utilsHill.NUM_2CHARS; j++) {
                 for (int k = 0; k < utilsHill.NUM_2CHARS; k++) {
@@ -147,11 +146,11 @@ public class analisisHill {
     }
 
     private boolean validByBigram(String cadena) {
-        cadena=cadena.substring(0, cadena.length()-6);
-        String aux="";
-        for (int i = 0; i < cadena.length()-2; i++) {
-            aux=cadena.substring(i, i+2);
-            if(!digsCompletos.contains(aux)){
+        cadena = cadena.substring(0, cadena.length() - 6);
+        String aux = "";
+        for (int i = 0; i < cadena.length() - 2; i++) {
+            aux = cadena.substring(i, i + 2);
+            if (!digsCompletos.contains(aux)) {
                 return false;
             }
         }

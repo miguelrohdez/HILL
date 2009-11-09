@@ -382,24 +382,28 @@ public class HillView extends FrameView {
             analisisHill analizador = new analisisHill();
             String txtCifrado = utilsHill.arreglarCadena(jTextAreaTxtCifrado.getText().trim());
             ArrayList descifrado = analizador.analizar(txtCifrado);
-            ArrayList aux = new ArrayList();
+            ArrayList<String> descifradoString = new ArrayList<String>();
             //elimina repeticiones con un for-each-one
-            System.out.println(descifrado.size());
             for(Object obj : descifrado){
-                if(!aux.contains(obj)){
-                    aux.add(obj);
+                if(obj.getClass() == String.class){
+                    if(!descifradoString.contains((String)obj)){
+                        descifradoString.add((String)obj);
+                    }
+                }
+                if(obj.getClass() == Matrix.class){
+                    if(!descifradoString.contains(utilsHill.matrixToString((Matrix)obj))){
+                        descifradoString.add(utilsHill.matrixToString((Matrix)obj));
+                    }
                 }
             }
-            System.out.println(aux.size());
-            descifrado = aux;
-            if(descifrado.isEmpty()){
+            if(descifradoString.isEmpty()){
                 throw new Exception("El texto no pudo ser desencriptado");
             }
             String txtDescifrado = "";
             String matrixDescifrado = "";
-            for (int i = 0; i <descifrado.size() ; i+=2) {
-                txtDescifrado=txtDescifrado.concat((String)descifrado.get(i)+"\n"+"\n");
-                matrixDescifrado = matrixDescifrado.concat(utilsHill.matrixToString((Matrix)descifrado.get(i+1))+"\n");
+            for (int i = 0; i <descifradoString.size() ; i+=2) {
+                txtDescifrado=txtDescifrado.concat(descifradoString.get(i)+"\n"+"\n");
+                matrixDescifrado = matrixDescifrado.concat(descifradoString.get(i+1)+"\n");
             }
             jTextAreaTxtClaro.setText(txtDescifrado);
             jTextAreaClave.setText(matrixDescifrado);

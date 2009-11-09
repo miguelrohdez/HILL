@@ -189,7 +189,6 @@ public class CSHill {
             }
         }
         determinantes = aux;
-        System.out.println(determinantes);
     }
 
     /**

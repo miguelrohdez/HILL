@@ -270,4 +270,17 @@ public class utilsHill {
         }
         return print;
     }
+
+    /**
+     * Retorna un String del arreglo ingresado
+     * @param matrix
+     * @return
+     */
+    public static String arrayToString(int [] array) {
+        String print = "";
+        for (int i = 0; i < array.length; i++) {
+                print = print.concat(Integer.toString(array[i]) + " ");
+        }
+        return print;
+    }
 }
