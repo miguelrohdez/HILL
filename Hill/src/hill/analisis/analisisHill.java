@@ -27,6 +27,8 @@ public class analisisHill {
 
     public ArrayList analizar(String txtCifrado) throws Exception {
         ArrayList result = new ArrayList();
+        //se usa el método estático para inicializar la tabla indexada para su posterior uso
+        CSHill.inicializarDeterminantes();
         ArrayList<Matrix> posiblesColumnas = analisisColumnas(txtCifrado);
         PermutationGenerator permGenerator = new PermutationGenerator(posiblesColumnas.size());
         int[] aux = new int[posiblesColumnas.size()];
@@ -67,10 +69,11 @@ public class analisisHill {
         Matrix auxVector = new Matrix(3, 1);
         ArrayList<Matrix> posibleCol = new ArrayList<Matrix>();
         for (int i = 0; i < utilsHill.NUM_2CHARS; i++) {
-//            if(i==0){i=359;}
-//            if(i==360){i=611;}
-//            if(i==612){i=738;}
-//            if(i==739){break;}
+//            if(i==0){i=252;}
+//            if(i==253){i=265;}
+//            if(i==266){i=403;}
+//            if(i==404){i=694;}
+//            if(i==695){break;}
             long starti = System.currentTimeMillis();
             for (int j = 0; j < utilsHill.NUM_2CHARS; j++) {
                 for (int k = 0; k < utilsHill.NUM_2CHARS; k++) {
@@ -148,9 +151,7 @@ public class analisisHill {
         String aux="";
         for (int i = 0; i < cadena.length()-2; i++) {
             aux=cadena.substring(i, i+2);
-//            System.out.println(aux);
             if(!digsCompletos.contains(aux)){
-//                System.out.println("SALIÓ");
                 return false;
             }
         }

@@ -384,11 +384,13 @@ public class HillView extends FrameView {
             ArrayList descifrado = analizador.analizar(txtCifrado);
             ArrayList aux = new ArrayList();
             //elimina repeticiones con un for-each-one
+            System.out.println(descifrado.size());
             for(Object obj : descifrado){
                 if(!aux.contains(obj)){
                     aux.add(obj);
                 }
             }
+            System.out.println(aux.size());
             descifrado = aux;
             if(descifrado.isEmpty()){
                 throw new Exception("El texto no pudo ser desencriptado");

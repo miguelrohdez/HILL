@@ -30,7 +30,7 @@ public class CSHill {
         this.clave = new Matrix(3, 3); //inicialmente en ceros
         this.txtCifrado = ""; //inicialmente en blanco
         this.txtClaro = ""; //inicialmente en blanco
-        determinantes = inicializarDeterminantes(); //pone los determinantes válidos en el hash set
+        inicializarDeterminantes(); //pone los determinantes válidos en el hash set
     }
 
     /**
@@ -43,7 +43,7 @@ public class CSHill {
         construirClave(clave);
         txtCifrado = "";
         txtClaro = "";
-        determinantes = inicializarDeterminantes();
+        inicializarDeterminantes();
     }
 
     public String getTxtCifrado() {
@@ -129,7 +129,7 @@ public class CSHill {
         txtCifrado = utilsHill.adjustString(txtCifrado, 6);
         txtClaro = "";
         Matrix claveInv = utilsHill.getInversa(clave);
-        txtClaro=toTexto(txtCifrado, claveInv);
+        txtClaro = toTexto(txtCifrado, claveInv);
     }
 
     /**
@@ -144,8 +144,8 @@ public class CSHill {
         if (!txtCifrado.matches("[A-Za-zñÑ ]+")) {
             throw new TextoException("el texto contiene caracteres inválidos");
         }
-        double det=utilsHill.determinante(claveInv);
-        if(!determinantes.contains(utilsHill.MMI((int)det, utilsHill.NUM_2CHARS))){
+        double det = utilsHill.determinante(claveInv);
+        if (!determinantes.contains(utilsHill.MMI((int) det, utilsHill.NUM_2CHARS))) {
             throw new ClaveException("matriz clave inválida");
         }
         txtCifrado = utilsHill.adjustString(txtCifrado, 6);
@@ -175,7 +175,12 @@ public class CSHill {
      * cálculos
      * @return
      */
-    private HashSet inicializarDeterminantes() {
+    public static void inicializarDeterminantes() {
+        if (determinantes != null) {
+            if (!determinantes.isEmpty()) {
+                determinantes.clear();
+            }
+        }
         HashSet aux = new HashSet();
         for (int i = 0; i < 784; i++) {
             //Si es primo relativo lo agrega al hash set si no, lo ignora
@@ -183,7 +188,8 @@ public class CSHill {
                 aux.add(i);
             }
         }
-        return aux;
+        determinantes = aux;
+        System.out.println(determinantes);
     }
 
     /**
@@ -194,15 +200,15 @@ public class CSHill {
      * @return
      * @throws TextoException
      */
-    public static String toTexto(String txt, Matrix claveMatrix) throws TextoException{
-        String resultTxt="";
+    public static String toTexto(String txt, Matrix claveMatrix) throws TextoException {
+        String resultTxt = "";
         Matrix vector = new Matrix(1, 3);
         for (int i = 0; i < txt.length(); i += 6) {
             vector = getVectorInt(txt.substring(i, i + 6));
             //función times multiplica matrices en este caso un vector por una matriz
             vector = vector.times(claveMatrix);
             //Calcula el módulo para los componentes del vector
-            vector.set(0, 0, utilsHill.modulo((int)Math.floor(vector.get(0, 0)), utilsHill.NUM_2CHARS));
+            vector.set(0, 0, utilsHill.modulo((int) Math.floor(vector.get(0, 0)), utilsHill.NUM_2CHARS));
             vector.set(0, 1, utilsHill.modulo((int) Math.floor(vector.get(0, 1)), utilsHill.NUM_2CHARS));
             vector.set(0, 2, utilsHill.modulo((int) Math.floor(vector.get(0, 2)), utilsHill.NUM_2CHARS));
             //Se tiene el texto deseado en números se pasará ahora a letras
